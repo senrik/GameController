@@ -10,6 +10,7 @@ namespace GameController
     {
 
         public FullscreenCanvas fullCanvas;
+        public MainMenuController mainMenu;
         //public GameObject mapCanvas;
         //public CanvasGroup debugCanvasGroup;
         //public Text debugText;
@@ -17,7 +18,7 @@ namespace GameController
         public bool showDebugPanel = false;
 
         private GameController _gc;
-        private CanvasGroup mapCanvasGroup;
+        private CanvasGroup mainMenuCanvasGroup;
         private Animator menuAnim, mapAnim;
         private string selectedAttraction;
         private enum AttractionID
@@ -40,73 +41,14 @@ namespace GameController
             {
                 player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerRig>();
             }
-            if (!mapCanvasGroup)
+            if (!mainMenuCanvasGroup)
             {
-                //mapCanvasGroup = mapCanvas.GetComponent<CanvasGroup>();
+                mainMenuCanvasGroup = mainMenu.GetComponent<CanvasGroup>();
             }
 
-            //if (showDebugPanel)
-            //{
-            //    debugCanvasGroup.alpha = 1;
-            //}
-            //else
-            //{
-            //    debugCanvasGroup.alpha = 0;
-            //}
             menuAnim = GetComponent<Animator>();
-            //mapAnim = mapCanvas.GetComponent<Animator>();
 
         }
-
-        //public void WriteToDebug(string s)
-        //{
-        //    debugText.text = s;
-        //}
-
-        //public void ActivateMapMenu(bool b)
-        //{
-        //    if (b)
-        //    {
-        //        if (mapCanvas.GetComponent<CanvasGroup>().alpha < 1)
-        //        {
-        //            mapCanvas.GetComponent<CanvasGroup>().alpha = 1;
-        //        }
-
-        //        mapCanvas.GetComponent<CanvasGroup>().blocksRaycasts = true;
-        //        mapCanvas.GetComponent<CanvasGroup>().interactable = true;
-        //    }
-        //    else
-        //    {
-        //        if (mapCanvas.GetComponent<CanvasGroup>().alpha > 0)
-        //        {
-        //            mapCanvas.GetComponent<CanvasGroup>().alpha = 0;
-        //        }
-        //        mapCanvas.GetComponent<CanvasGroup>().blocksRaycasts = false;
-        //        mapCanvas.GetComponent<CanvasGroup>().interactable = false;
-        //    }
-        //}
-
-        //void AttractionSelection(Collider attractionCol)
-        //{
-        //    try
-        //    {
-        //        if (attractionCol)
-        //        {
-        //            selectedAttraction = attractionCol.GetComponent<Attraction>().sceneName;
-        //        }
-        //        else
-        //        {
-        //            currentAttraction = AttractionID.None;
-        //            selectedAttraction = "";
-        //        }
-        //    }
-        //    catch (System.Exception e)
-        //    {
-        //        Debug.Log("Attraction Selection failed with exception: " + e.Message);
-        //    }
-
-        //    //Debug.Log("Current Attraction Selected: " + currentAttraction.ToString());
-        //}
 
         /// <summary>
         /// Sets the bool in the MenuSystem's Animtor to the passed in value. If it is true the screen be set to clear. If it is false it will be set to fade to black.
@@ -138,20 +80,6 @@ namespace GameController
                 }
             }
 
-            //if (showDebugPanel)
-            //{
-            //    if (debugCanvasGroup.alpha < 1)
-            //    {
-            //        debugCanvasGroup.alpha = 1;
-            //    }
-            //}
-            //else
-            //{
-            //    if (debugCanvasGroup.alpha > 0)
-            //    {
-            //        debugCanvasGroup.alpha = 0;
-            //    }
-            //}
         }
 
         void LateUpdate()
@@ -168,6 +96,7 @@ namespace GameController
                             //{
                             //    //ActivateMapMenu(false);
                             //}
+                            
                         }
                         else
                         {
@@ -175,6 +104,7 @@ namespace GameController
                             //{
                             //    //ActivateMapMenu(true);
                             //}
+                            mainMenu.ToggleMainMenu(true);
                         }
                         //AttractionSelection(player.AttractionCollider);
                         break;
