@@ -15,8 +15,10 @@ namespace GameController
             Paused,
             Loading,
         };
+
         public GameObject playerPrefab;
         public List<Transform> playerSpawns;
+        public List<SceneCard> scenes;
         private static GameState state = GameState.Loading;
         private bool loadScene, pauseGame /*, mapActive*/;
         private static bool sceneReady = true;
