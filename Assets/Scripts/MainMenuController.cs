@@ -7,8 +7,7 @@ namespace GameController
 {
     public class MainMenuController : MonoBehaviour
     {
-
-
+        public ButtonPanelController buttonPanel;
         private CanvasGroup cnvsGrp;
 
         void Awake()
@@ -50,6 +49,22 @@ namespace GameController
         void Update()
         {
 
+        }
+
+        public Button PlayButton
+        {
+            get {
+                for(int i = 0; i < buttonPanel.buttons.Count; i++)
+                {
+                    if (buttonPanel.buttons[i].CompareTag("PlayButton"))
+                    {
+                        Debug.Log("PlayButton found!");
+                        return buttonPanel.buttons[i];
+                    }
+                }
+                Debug.Log("PlayButton not found!");
+                return null;
+            }
         }
     }
 }

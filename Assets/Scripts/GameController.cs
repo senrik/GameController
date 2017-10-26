@@ -142,6 +142,7 @@ namespace GameController
             pauseGame = false;
             //mapActive = true;
         }
+
         public void LoadMe(string scene)
         {
             Debug.Log(string.Format("Attempting to load: {0}", scene));
@@ -149,16 +150,7 @@ namespace GameController
             loadScene = true;
             sceneToLoad = scene;
         }
-        private void OnGUI()
-        {
-            if (Event.current.type != EventType.Repaint)
-            {
-                if (Event.current.type != EventType.Layout)
-                {
-                    //player.GetComponent<PlayerRig>().PrintToDebug("Gamepad: " + "\n" + Event.current.ToString() + "\n\tType: " + Event.current.type.ToString());
-                }
-            }
-        }
+
         // Update is called once per frame
         void Update()
         {
@@ -166,7 +158,7 @@ namespace GameController
             {
                 if (GameObject.FindGameObjectWithTag("MenuSystem"))
                 {
-                    //_ms = GameObject.FindGameObjectWithTag("MenuSystem").GetComponent<MenuSystem>();
+                    _ms = GameObject.FindGameObjectWithTag("MenuSystem").GetComponent<MenuSystem>();
                 }
                 //player.GetComponent<PlayerRig>().PrintToDebug(string.Format("MenuSystem Not Set"));
             }
