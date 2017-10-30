@@ -122,10 +122,17 @@ namespace GameController
             {
                 playerSpawns.Add(transform);
             }
+
+            if (GameObject.FindGameObjectWithTag("Player"))
+            {
+                player = GameObject.FindGameObjectWithTag("Player");
+            }
+
             if (!player)
             {
                 player = Instantiate(playerPrefab);
                 _ms = player.GetComponent<PlayerRig>().menuSystem;
+                player.GetComponent<PlayerRig>().SetGC(this);
                 if (DEBUG_MODE)
                 {
                     if (!player.GetComponent<PlayerRig>().DEBUG_MODE)
@@ -134,13 +141,8 @@ namespace GameController
                     }
                 }
             }
-            if (!_ms && GameObject.FindGameObjectWithTag("MenuSystem"))
-            {
-                //_ms = GameObject.FindGameObjectWithTag("MenuSystem").GetComponent<MenuSystem>();
-            }
             loadScene = false;
             pauseGame = false;
-            //mapActive = true;
         }
 
         public void LoadMe(string scene)
@@ -160,7 +162,6 @@ namespace GameController
                 {
                     _ms = GameObject.FindGameObjectWithTag("MenuSystem").GetComponent<MenuSystem>();
                 }
-                //player.GetComponent<PlayerRig>().PrintToDebug(string.Format("MenuSystem Not Set"));
             }
             else
             {
@@ -169,7 +170,6 @@ namespace GameController
 
                     case GameState.Active:
                         #region Active
-                        //player.GetComponent<PlayerRig>().PrintToDebug(string.Format("GameState: {0}", state.ToString()));
                         // if the game is flagged to load a scene
                         if (loadScene)
                         {
@@ -186,7 +186,7 @@ namespace GameController
                             }
                         }
 #if (UNITY_EDITOR)
-                        if (Input.GetButtonDown("Cancel"))
+                        if (Input.GetButtonDown("Pause"))
                         {
                             state = GameState.Paused;
                             pauseGame = true;
@@ -197,27 +197,10 @@ namespace GameController
                         LoadMe("MMscene01");
                     }
 #endif
-                        //if (mapActive)
-                        //{
-                        //    if (Input.GetButtonDown("Confirm") || Input.GetButtonDown("Fire1"))
-                        //    {
-                        //        if (_ms.SelectedAttraction.Length > 0)
-                        //        {
-                        //            LoadMe(_ms.SelectedAttraction);
-                        //        }
-                        //    }
-                        //}
-
-                        //if (SceneManager.GetActiveScene().buildIndex > 0)
-                        //{
-                        //    mapActive = false;
-                        //    _ms.ActivateMapMenu(false);
-                        //}
                         #endregion
                         break;
                     case GameState.Loading:
                         #region Loading
-                        //player.GetComponent<PlayerRig>().PrintToDebug(string.Format("GameState: {0}", state.ToString()));
                         // If the current scene is not the main menu scene
                         if (SceneManager.GetActiveScene().buildIndex > 0)
                         {
@@ -239,22 +222,19 @@ namespace GameController
                         break;
                     case GameState.Paused:
                         #region Paused
-                        //player.GetComponent<PlayerRig>().PrintToDebug(string.Format("GameState: {0}", state.ToString()));
                         // If the current scene is not the main menu scene
                         if (SceneManager.GetActiveScene().buildIndex > 0)
                         {
                             // If the screen is clear 
                             if (_ms.ScreenClear)
                             {
-                                //player.GetComponent<PlayerRig>().PrintToDebug("Screen is clear.");
                                 // The game is flagged to be paused
                                 if (pauseGame)
                                 {
-                                    //player.GetComponent<PlayerRig>().PrintToDebug("Game is flagged to be paused.");
                                     // Pause the game
                                     PauseGame(true);
                                     // If the player presses the pause button
-                                    if (Input.GetButtonDown("Cancel"))
+                                    if (Input.GetButtonDown("Pause"))
                                     {
                                         // Flag to resume the game
                                         PauseGame(false);
@@ -284,13 +264,11 @@ namespace GameController
                             // If the screen is clear
                             if (_ms.ScreenClear)
                             {
-                                //player.GetComponent<PlayerRig>().PrintToDebug("Screen is clear.");
                                 // The game is flagged to be paused
                                 if (pauseGame)
                                 {
-                                    //player.GetComponent<PlayerRig>().PrintToDebug("Game is flagged to be paused.");
                                     // If the player presses the pause button
-                                    if (Input.GetButtonDown("Cancel"))
+                                    if (Input.GetButtonDown("Pause"))
                                     {
                                         // Flag to resume the game
                                         PauseGame(false);
@@ -307,7 +285,6 @@ namespace GameController
                                 // If the game is not flagged to be paused (this is to catch the initial load-in from another scene)
                                 else
                                 {
-                                    //player.GetComponent<PlayerRig>().PrintToDebug("Game is not set to be paused.");
                                     // Set the state to active
                                     state = GameState.Active;
                                 }

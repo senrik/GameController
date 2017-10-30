@@ -53,7 +53,7 @@ namespace GameController
             }
             catch(System.Exception e)
             {
-                Debug.Log(string.Format("Exception {0} encountered while trying to set the play button action.", e.Message));
+                Debug.Log(string.Format("Exception \"{0}\" encountered while trying to set the play button action.", e.Message));
             }
 
             mainMenuBound = true;
