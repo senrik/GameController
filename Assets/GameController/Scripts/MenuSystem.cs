@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 namespace GameController
@@ -16,20 +17,13 @@ namespace GameController
         //public Text debugText;
         public PlayerRig player;
         public bool showDebugPanel = false;
-
+        private bool mainMenuBound = false;
         private GameController _gc;
         private CanvasGroup mainMenuCanvasGroup;
         private Animator menuAnim, mapAnim;
         private string selectedAttraction;
-        private enum AttractionID
-        {
-            None = 0,
-            IceSizzle = 11,
-            PieFace = 22,
-            HammerDown = 33
-        };
-
-        private AttractionID currentAttraction;
+        
+        
         // Use this for initialization
         void Start()
         {
@@ -48,8 +42,23 @@ namespace GameController
 
             menuAnim = GetComponent<Animator>();
 
+            
         }
 
+        private void BindMainMenuActions()
+        {
+            try
+            {
+                mainMenu.PlayButton.onClick.AddListener(delegate { _gc.LoadMe("PlayScene"); });
+            }
+            catch(System.Exception e)
+            {
+                Debug.Log(string.Format("Exception \"{0}\" encountered while trying to set the play button action.", e.Message));
+            }
+
+            mainMenuBound = true;
+            
+        }
         /// <summary>
         /// Sets the bool in the MenuSystem's Animtor to the passed in value. If it is true the screen be set to clear. If it is false it will be set to fade to black.
         /// </summary>
@@ -73,6 +82,10 @@ namespace GameController
                         //}
                         break;
                     case GameController.GameState.Loading:
+                        if (!mainMenuBound)
+                        {
+                            BindMainMenuActions();
+                        }
                         break;
                     case GameController.GameState.Paused:
 

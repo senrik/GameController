@@ -9,16 +9,25 @@ namespace GameController
         public bool DEBUG_MODE = false;
         public MenuSystem menuSystem;
 
+        private GameController _gc;
+
         // Use this for initialization
         void Start()
         {
 
         }
 
+        public void SetGC(GameController gc)
+        {
+            _gc = gc;
+        }
         // Update is called once per frame
         void Update()
         {
-
+            if (Input.GetKeyUp(KeyCode.K))
+            {
+                _gc.LoadMe("PlayScene");
+            }
         }
     }
 }
