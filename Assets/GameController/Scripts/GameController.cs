@@ -104,16 +104,6 @@ namespace GameController
 
         }
 
-        void OnEnable()
-        {
-            //SceneManager.sceneLoaded += GetComponent<SessionController>().LevelWasLoaded;
-        }
-
-        void OnDisable()
-        {
-            //SceneManager.sceneLoaded -= GetComponent<SessionController>().LevelWasLoaded;
-        }
-
         // Use this for initialization
         void Start()
         {
@@ -134,13 +124,9 @@ namespace GameController
                     }
                 }
             }
-            if (!_ms && GameObject.FindGameObjectWithTag("MenuSystem"))
-            {
-                //_ms = GameObject.FindGameObjectWithTag("MenuSystem").GetComponent<MenuSystem>();
-            }
+
             loadScene = false;
             pauseGame = false;
-            //mapActive = true;
         }
         public void LoadMe(string scene)
         {
@@ -155,7 +141,6 @@ namespace GameController
             {
                 if (Event.current.type != EventType.Layout)
                 {
-                    //player.GetComponent<PlayerRig>().PrintToDebug("Gamepad: " + "\n" + Event.current.ToString() + "\n\tType: " + Event.current.type.ToString());
                 }
             }
         }
@@ -168,7 +153,6 @@ namespace GameController
                 {
                     //_ms = GameObject.FindGameObjectWithTag("MenuSystem").GetComponent<MenuSystem>();
                 }
-                //player.GetComponent<PlayerRig>().PrintToDebug(string.Format("MenuSystem Not Set"));
             }
             else
             {
@@ -330,7 +314,6 @@ namespace GameController
             }
 
             Debug.Log("Game State: " + state.ToString());
-            //Debug.Log(string.Format("SceneReady: {0}", sceneReady));
         }
 
         public static GameState State
