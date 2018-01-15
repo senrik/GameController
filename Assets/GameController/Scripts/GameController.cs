@@ -9,18 +9,13 @@ namespace GameController
     {
 
         public bool DEBUG_MODE = false;
-        public enum GameState
-        {
-            Active,
-            Paused,
-            Loading,
-        };
+        
 
         public GameObject playerPrefab;
         public List<Transform> playerSpawns;
         public List<SceneCard> scenes;
         private static GameState state = GameState.Loading;
-        private bool loadScene, pauseGame /*, mapActive*/;
+        private bool loadScene, pauseGame;
         private static bool sceneReady = true;
         private string sceneToLoad;
         private MenuSystem _ms;

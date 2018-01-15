@@ -14,7 +14,7 @@ namespace GameController
         // Update is called once per frame
         void Update()
         {
-            if(GameController.State != GameController.GameState.Active)
+            if(GameController.State != GameState.Active)
             {
                 if (gameObject.activeSelf)
                 {

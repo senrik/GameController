@@ -8,18 +8,28 @@ namespace GameController {
     /// </summary>
     public class SceneController : MonoBehaviour
     {
+        public GameObject gameControllerPrefab;
+
 
         private GameController _gc;
         private bool sceneReady;
         // Use this for initialization
-        void Start()
+        protected void Start()
         {
-            _gc = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+            if (GameObject.FindGameObjectWithTag("GameController"))
+            {
+                _gc = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+            }
+            else
+            {
+                _gc = Instantiate(gameControllerPrefab).GetComponent<GameController>();
+            }
+            
 
         }
 
         // Update is called once per frame
-        void Update()
+        protected void Update()
         {
             if (sceneReady && !_gc.SceneReady)
             {

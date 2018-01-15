@@ -24,9 +24,14 @@ namespace GameController
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetKeyUp(KeyCode.K))
+            switch (GameController.State)
             {
-                _gc.LoadMe("PlayScene");
+                case GameState.Active:
+                    if (Input.GetKeyUp(KeyCode.K))
+                    {
+                        _gc.LoadMe("PlayScene");
+                    }
+                    break;
             }
         }
     }

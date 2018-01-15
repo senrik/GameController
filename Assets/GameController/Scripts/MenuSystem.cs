@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Events;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace GameController
@@ -34,6 +30,7 @@ namespace GameController
             if (!player)
             {
                 player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerRig>();
+             
             }
             if (!mainMenuCanvasGroup)
             {
@@ -41,12 +38,12 @@ namespace GameController
             }
 
             menuAnim = GetComponent<Animator>();
-
             
         }
 
         private void BindMainMenuActions()
         {
+            Debug.Log("Binding Main Menu Buttons");
             try
             {
                 mainMenu.PlayButton.onClick.AddListener(delegate { _gc.LoadMe("PlayScene"); });
@@ -59,6 +56,7 @@ namespace GameController
             mainMenuBound = true;
             
         }
+
         /// <summary>
         /// Sets the bool in the MenuSystem's Animtor to the passed in value. If it is true the screen be set to clear. If it is false it will be set to fade to black.
         /// </summary>
@@ -75,19 +73,19 @@ namespace GameController
             {
                 switch (GameController.State)
                 {
-                    case GameController.GameState.Active:
-                        //if (player.LookingForMap)
-                        //{
-                        //    //menuAnim.SetBool("LookForMap", true);
-                        //}
-                        break;
-                    case GameController.GameState.Loading:
+                    case GameState.Active:
                         if (!mainMenuBound)
                         {
                             BindMainMenuActions();
                         }
                         break;
-                    case GameController.GameState.Paused:
+                    case GameState.Loading:
+                        if (!mainMenuBound)
+                        {
+                            BindMainMenuActions();
+                        }
+                        break;
+                    case GameState.Paused:
 
                         break;
                 }
@@ -101,29 +99,20 @@ namespace GameController
             {
                 switch (GameController.State)
                 {
-                    case GameController.GameState.Active:
+                    case GameState.Active:
                         if (SceneManager.GetActiveScene().buildIndex > 0)
                         {
-                            /* Have some other conditions to hide the map, like test in progress */
-                            //if (mapCanvasGroup.alpha > 0)
-                            //{
-                            //    //ActivateMapMenu(false);
-                            //}
                             
                         }
                         else
                         {
-                            //if (mapCanvasGroup.alpha < 1)
-                            //{
-                            //    //ActivateMapMenu(true);
-                            //}
+
                             mainMenu.ToggleMainMenu(true);
                         }
-                        //AttractionSelection(player.AttractionCollider);
                         break;
-                    case GameController.GameState.Loading:
+                    case GameState.Loading:
                         break;
-                    case GameController.GameState.Paused:
+                    case GameState.Paused:
                         if (_gc.SceneReady)
                         {
                             FadeScreen(true);

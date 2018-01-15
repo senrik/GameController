@@ -22,7 +22,7 @@ namespace GameController
             if (listenObj)
             {
                 
-                if(GameController.State == GameController.GameState.Active)
+                if(GameController.State == GameState.Active)
                 {
                     if (!listenObj.activeSelf)
                     {
