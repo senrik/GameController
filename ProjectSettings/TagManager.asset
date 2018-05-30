@@ -17,9 +17,9 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
+  - PlayerInteract
+  - Terrain
+  - CanTeleport
   - 
   - 
   - 
