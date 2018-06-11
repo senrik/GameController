@@ -76,13 +76,13 @@ namespace GameController
                     case GameState.Active:
                         if (!mainMenuBound)
                         {
-                            BindMainMenuActions();
+                           //BindMainMenuActions();
                         }
                         break;
                     case GameState.Loading:
                         if (!mainMenuBound)
                         {
-                            BindMainMenuActions();
+                            //BindMainMenuActions();
                         }
                         break;
                     case GameState.Paused:
