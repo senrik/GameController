@@ -23,7 +23,7 @@ public class LaserPointer : MonoBehaviour {
     private bool shouldTeleport, uiElement;
 
     private GameObject laser, uiLaser;
-    private GameObject selectedUIElement;
+    private UIInterativeElement selectedUIElement;
     private Transform laserTransform, uiLaserTransform;
     private Vector3 hitPoint;
     private Vector3 laserScale;
@@ -31,6 +31,7 @@ public class LaserPointer : MonoBehaviour {
     {
         get { return inputHandler.Stick; }
     }
+    
 
     void Awake()
     {
@@ -43,13 +44,13 @@ public class LaserPointer : MonoBehaviour {
 
     private void Start()
     {
-        laser = Instantiate(laserPrefab);
-        uiLaser = Instantiate(uiPointerPrefab);
+        laser = Instantiate(laserPrefab, transform);
+        uiLaser = Instantiate(uiPointerPrefab, transform);
 
         laserTransform = laser.transform;
         uiLaserTransform = uiLaser.transform;
 
-        reticle = Instantiate(teleportReticlePrefab);
+        reticle = Instantiate(teleportReticlePrefab, transform);
 
         teleportReticleTransform = reticle.transform;
     }
@@ -81,6 +82,8 @@ public class LaserPointer : MonoBehaviour {
         laserScale.z = hit.distance;
 
         uiLaserTransform.localScale = laserScale;
+
+
     }
 
     private void Teleport()
@@ -96,9 +99,11 @@ public class LaserPointer : MonoBehaviour {
 
     private void SelectUIElement()
     {
-        if (selectedUIElement)
+        if (selectedUIElement != null)
         {
             Debug.Log(selectedUIElement.name + " selected.");
+            selectedUIElement.OnHoverEnd();
+            selectedUIElement.OnInteract.Invoke();
             selectedUIElement = null;
         }
 
@@ -124,13 +129,21 @@ public class LaserPointer : MonoBehaviour {
             {
                 hitPoint = hit.point;
                 ShowUILaser(hit);
-                selectedUIElement = hit.collider.gameObject;
-
+                selectedUIElement = hit.collider.GetComponent<ButtonBounds>().InterableElement;
+                if(selectedUIElement != null)
+                {
+                    selectedUIElement.OnHoverStart();
+                }
                 uiElement = true;
             }
             else
             {
                 uiLaser.SetActive(false);
+                if(selectedUIElement != null)
+                {
+                    selectedUIElement.OnHoverEnd();
+                }
+                
                 selectedUIElement = null;
             }
         }

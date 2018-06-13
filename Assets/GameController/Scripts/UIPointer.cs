@@ -16,6 +16,7 @@ namespace GameController
         {
             get { return SteamVR_Controller.Input((int)trackedObj.index); }
         }
+        private UIInterativeElement _elem;
 
         private void Awake()
         {
@@ -37,6 +38,14 @@ namespace GameController
             pointerModel.transform.LookAt(hitPoint);
 
             pointerModel.transform.localScale = new Vector3(pointerModel.transform.localScale.x, pointerModel.transform.localScale.y, hit.distance /*Mathf.Infinity*/);
+
+            // IF the UI was interactable
+            if (hit.collider.CompareTag("InteractableUI"))
+            {
+                _elem = hit.collider.gameObject.GetComponent<UIInterativeElement>();
+                _elem.OnHoverStart();
+
+            }
         }
 
         // Update is called once per frame
@@ -52,6 +61,16 @@ namespace GameController
                 {
                     hitPoint = hit.point;
                     ShowPointer(hit);
+                }
+                else
+                {
+                    // reset elem to idle state
+                    if(_elem)
+                    {
+                        _elem.OnHoverEnd();
+                        _elem = null;
+                    }
+
                 }
                 
             }

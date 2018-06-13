@@ -29,6 +29,10 @@ namespace GameController
             {
                 if (cnvsGrp.alpha < 1)
                 {
+                    if(!buttonPanel.gameObject.activeSelf)
+                    {
+                        buttonPanel.gameObject.SetActive(true);
+                    }
                     cnvsGrp.alpha = 1;
                     cnvsGrp.interactable = true;
                     cnvsGrp.blocksRaycasts = true;
@@ -38,6 +42,10 @@ namespace GameController
             {
                 if (cnvsGrp.alpha > 0)
                 {
+                    if(buttonPanel.gameObject.activeSelf)
+                    {
+                        buttonPanel.gameObject.SetActive(false);
+                    }
                     cnvsGrp.alpha = 0;
                     cnvsGrp.interactable = false;
                     cnvsGrp.blocksRaycasts = false;
@@ -51,7 +59,7 @@ namespace GameController
 
         }
 
-        public Button PlayButton
+        public UIInterativeElement PlayButton
         {
             get {
                 for(int i = 0; i < buttonPanel.buttons.Count; i++)

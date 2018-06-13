@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class ButtonBounds : MonoBehaviour {
 
+    
     public float canvasScale;
-    private BoxCollider bounds;
-
+    private BoxCollider _bounds;
+    private UIInterativeElement _elem;
 
     void Awake()
     {
-        bounds = (GetComponent<BoxCollider>()) ? GetComponent<BoxCollider>() : null;
+        _bounds = (GetComponent<BoxCollider>()) ? GetComponent<BoxCollider>() : null;
         try
         {
             // Set Bounds based off of rect transform and canvas scale
@@ -20,22 +21,18 @@ public class ButtonBounds : MonoBehaviour {
             temp_size.z = 0.1f;
             if((temp_size.x > 0.0f) && (temp_size.y > 0.0f))
             {
-                bounds.size = temp_size;
+                _bounds.size = temp_size;
             }
         }
         catch (System.Exception e)
         {
             Debug.Log(e);
         }
+        _elem = (transform.parent.GetComponent<UIInterativeElement>()) ? transform.parent.GetComponent<UIInterativeElement>() : null;
     }
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public UIInterativeElement InterableElement
+    {
+        get { return _elem; }
+    }
 }
