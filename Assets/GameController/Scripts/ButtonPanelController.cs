@@ -5,6 +5,6 @@ using UnityEngine.UI;
 
 public class ButtonPanelController : MonoBehaviour {
 
-    public List<Button> buttons;
+    public List<UIInterativeElement> buttons;
     
 }

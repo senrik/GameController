@@ -10,4 +10,8 @@ EditorBuildSettings:
     guid: 3d864b484c3276c4b963c53044f08347
   - enabled: 1
     path: Assets/GameController/Scenes/PlayScene.unity
-    guid: 00000000000000000000000000000000
+    guid: 07fd02ebc2a92f944b2f416bcaa4206d
+  - enabled: 1
+    path: Assets/ViveStarterKit/Scenes/viveDemoScene01.unity
+    guid: e823e573a604765459bc417243cd46b1
+  m_configObjects: {}

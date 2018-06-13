@@ -46,7 +46,7 @@ namespace GameController
             Debug.Log("Binding Main Menu Buttons");
             try
             {
-                mainMenu.PlayButton.onClick.AddListener(delegate { _gc.LoadMe("PlayScene"); });
+                mainMenu.PlayButton.OnInteract.AddListener(delegate { _gc.LoadMe("viveDemoScene01"); });
             }
             catch(System.Exception e)
             {
@@ -76,7 +76,7 @@ namespace GameController
                     case GameState.Active:
                         if (!mainMenuBound)
                         {
-                            BindMainMenuActions();
+                           BindMainMenuActions();
                         }
                         break;
                     case GameState.Loading:
@@ -102,7 +102,7 @@ namespace GameController
                     case GameState.Active:
                         if (SceneManager.GetActiveScene().buildIndex > 0)
                         {
-                            
+                            mainMenu.ToggleMainMenu(false);
                         }
                         else
                         {
