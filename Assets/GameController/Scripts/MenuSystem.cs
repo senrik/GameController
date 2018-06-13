@@ -13,11 +13,11 @@ namespace GameController
         //public Text debugText;
         public PlayerRig player;
         public bool showDebugPanel = false;
-        private bool mainMenuBound = false;
+        private bool mainMenuBound = false, bindMainMenu = false;
         private GameController _gc;
         private CanvasGroup mainMenuCanvasGroup;
         private Animator menuAnim, mapAnim;
-        private string selectedAttraction;
+        private string playSceneName;
         
         
         // Use this for initialization
@@ -46,7 +46,7 @@ namespace GameController
             Debug.Log("Binding Main Menu Buttons");
             try
             {
-                mainMenu.PlayButton.OnInteract.AddListener(delegate { _gc.LoadMe("viveDemoScene01"); });
+                mainMenu.PlayButton.OnInteract.AddListener(delegate { _gc.LoadMe(playSceneName); });
             }
             catch(System.Exception e)
             {
@@ -74,13 +74,13 @@ namespace GameController
                 switch (GameController.State)
                 {
                     case GameState.Active:
-                        if (!mainMenuBound)
+                        if (bindMainMenu && !mainMenuBound)
                         {
                            BindMainMenuActions();
                         }
                         break;
                     case GameState.Loading:
-                        if (!mainMenuBound)
+                        if (bindMainMenu && !mainMenuBound)
                         {
                             BindMainMenuActions();
                         }
@@ -134,9 +134,16 @@ namespace GameController
             get { return fullCanvas.ScreenClear; }
         }
 
-        public string SelectedAttraction
+        public bool BindMainMenu
         {
-            get { return selectedAttraction; }
+            get { return bindMainMenu; }
+            set { bindMainMenu = value; }
+        }
+
+        public string PlaySceneName
+        {
+            get { return playSceneName; }
+            set { playSceneName = value; }
         }
     }
 

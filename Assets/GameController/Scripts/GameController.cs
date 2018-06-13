@@ -16,8 +16,9 @@ namespace GameController
         public List<SceneCard> scenes;
         private static GameState state = GameState.Loading;
         private bool loadScene, pauseGame;
-        private static bool sceneReady = true;
+        private static bool sceneReady = false;
         private string sceneToLoad;
+        
         private MenuSystem _ms;
         private GameObject player;
 
@@ -61,6 +62,11 @@ namespace GameController
                 playerSpawns.Add(temp);
             }
 
+        }
+        public void SetPlaySceneName(string n)
+        {
+            _ms.PlaySceneName = n;
+            _ms.BindMainMenu = true;
         }
         public void PauseGame(bool p)
         {
