@@ -11,7 +11,7 @@ namespace GameController {
         public GameObject gameControllerPrefab;
 
 
-        private GameController _gc;
+        protected GameController _gc;
         private bool sceneReady;
         // Use this for initialization
         protected void Start()

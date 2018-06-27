@@ -90,6 +90,8 @@ MonoBehaviour:
     buildIndex: 0
   - sceneName: PlayScene
     buildIndex: 1
+  - sceneName: viveDemoScene01
+    buildIndex: 2
 --- !u!114 &114667285301024534
 MonoBehaviour:
   m_ObjectHideFlags: 1
