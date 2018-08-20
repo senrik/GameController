@@ -14,7 +14,7 @@ namespace GameController
         // Use this for initialization
         void Start()
         {
-
+            DontDestroyOnLoad(this);
         }
 
         public void SetGC(GameController gc)
