@@ -11,6 +11,7 @@ public class ViveControllerInputTest : MonoBehaviour {
         get { return SteamVR_Controller.Input((int)trackedObj.index); }
     }
 
+    private bool applicationMenuPressed = false;
     void Awake()
     {
         trackedObj = GetComponent<SteamVR_TrackedObject>();
@@ -42,8 +43,19 @@ public class ViveControllerInputTest : MonoBehaviour {
         {
             Debug.Log(gameObject.name + " Grip Release");
         }
+
+        if(Controller.GetPressUp(SteamVR_Controller.ButtonMask.ApplicationMenu))
+        {
+            applicationMenuPressed = true;
+            Debug.Log("ERMAHGERD");
+        }
 	}
 
+    public bool PauseButtonPressed
+    {
+        get { return applicationMenuPressed; }
+        set { applicationMenuPressed = value; }
+    }
     public SteamVR_Controller.Device Stick
     {
         get { return Controller; }

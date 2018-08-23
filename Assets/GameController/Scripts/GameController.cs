@@ -67,6 +67,7 @@ namespace GameController
         {
             _ms.PlaySceneName = n;
             _ms.BindMainMenu = true;
+            _ms.BindPauseMenu = true;
         }
         public void PauseGame(bool p)
         {
@@ -174,20 +175,23 @@ namespace GameController
                                 {
                                     player.SetActive(true);
                                 }
+                                
                             }
                         }
-#if (UNITY_EDITOR)
-                        if (Input.GetButtonDown("Pause"))
+                        // If we are not on the main menu
+                        if(SceneManager.GetActiveScene().buildIndex > 0)
                         {
-                            state = GameState.Paused;
-                            pauseGame = true;
+                            // If the Pause button was pressed
+                            if (player.GetComponent<PlayerRig>().PausePressed)
+                            {
+                                // Reset the pause button flags
+                                player.GetComponent<PlayerRig>().ResetPausePressed();
+                                // Switch to the Paused state
+                                state = GameState.Paused;
+                                // Flag the GameController to pause the game (timeScale = 0)
+                                pauseGame = true;
+                            }
                         }
-#else
-                    if (Input.GetButtonDown("Cancel"))
-                    {
-                        LoadMe("MMscene01");
-                    }
-#endif
                         #endregion
                         break;
                     case GameState.Loading:
@@ -225,8 +229,9 @@ namespace GameController
                                     // Pause the game
                                     PauseGame(true);
                                     // If the player presses the pause button
-                                    if (Input.GetButtonDown("Pause"))
+                                    if (player.GetComponent<PlayerRig>().PausePressed)
                                     {
+                                        player.GetComponent<PlayerRig>().ResetPausePressed();
                                         // Flag to resume the game
                                         PauseGame(false);
                                     }

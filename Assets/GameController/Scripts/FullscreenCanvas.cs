@@ -57,6 +57,22 @@ namespace GameController
         IEnumerator ScreenFadeCor(bool fade)
         {
             float elapsedTime = 0.0f;
+
+            if(!fade)
+            {
+                if(fadeGrp.alpha >= 1.0f)
+                {
+                    isFading = false;
+                }
+            }
+            else
+            {
+                if (fadeGrp.alpha <= 0.0f)
+                {
+                    isFading = false;
+                }
+            }
+
             while(isFading)
             {
                 yield return new WaitForEndOfFrame();

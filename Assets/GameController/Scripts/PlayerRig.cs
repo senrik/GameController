@@ -9,17 +9,23 @@ namespace GameController
         public bool DEBUG_MODE = false;
         public MenuSystem menuSystem;
 
+        private PlayerInputHandler _input;
         private GameController _gc;
 
         // Use this for initialization
         void Start()
         {
             DontDestroyOnLoad(this);
+            _input = GetComponent<PlayerInputHandler>();
         }
 
         public void SetGC(GameController gc)
         {
             _gc = gc;
+        }
+        public void ResetPausePressed()
+        {
+            _input.ResetPausePressed();
         }
         // Update is called once per frame
         void Update()
@@ -27,12 +33,14 @@ namespace GameController
             switch (GameController.State)
             {
                 case GameState.Active:
-                    if (Input.GetKeyUp(KeyCode.K))
-                    {
-                        _gc.LoadMe("PlayScene");
-                    }
+
                     break;
             }
+        }
+
+        public bool PausePressed
+        {
+            get { return _input.MenuButtonPressed; }
         }
     }
 }

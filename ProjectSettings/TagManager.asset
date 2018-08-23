@@ -9,6 +9,8 @@ TagManager:
   - PlayButton
   - QuitButton
   - InteractableUI
+  - ResumeButton
+  - MainMenuButton
   layers:
   - Default
   - TransparentFX

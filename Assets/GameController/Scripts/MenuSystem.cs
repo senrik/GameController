@@ -8,12 +8,13 @@ namespace GameController
 
         public FullscreenCanvas fullCanvas;
         public MainMenuController mainMenu;
+        public PauseMenuController pauseMenu;
         //public GameObject mapCanvas;
         //public CanvasGroup debugCanvasGroup;
         //public Text debugText;
         public PlayerRig player;
         public bool showDebugPanel = false;
-        private bool mainMenuBound = false, bindMainMenu = false;
+        private bool mainMenuBound = false, bindMainMenu = false, pauseMenuBound = false, bindPauseMenu;
         private GameController _gc;
         private CanvasGroup mainMenuCanvasGroup;
         private Animator menuAnim, mapAnim;
@@ -23,10 +24,26 @@ namespace GameController
         // Use this for initialization
         void Start()
         {
-            if (!_gc)
+            try
             {
-                _gc = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+                if (!_gc)
+                {
+                    if (GameObject.FindGameObjectWithTag("GameController"))
+                    {
+                        _gc = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+                    }
+                    else
+                    {
+                        throw new System.NullReferenceException("No initialized GameController Object found!");
+                    }
+
+                }
             }
+            catch(System.Exception e)
+            {
+                Debug.Log(e);
+            }
+            
             if (!player)
             {
                 player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerRig>();
@@ -57,6 +74,22 @@ namespace GameController
             
         }
 
+        private void BindPauseMenuActions()
+        {
+            Debug.Log("Binding Pause Menu Buttons");
+            try
+            {
+                pauseMenu.MainMenuButton.OnInteract.AddListener(delegate { _gc.LoadMe("MainMenuScene"); });
+                pauseMenu.ResumeButton.OnInteract.AddListener(delegate { _gc.PauseGame(false); });
+            }
+            catch (System.Exception e)
+            {
+                Debug.Log(e);
+            }
+
+            pauseMenuBound = true;
+        }
+
         /// <summary>
         /// Sets the bool in the MenuSystem's Animtor to the passed in value. If it is true the screen be set to clear. If it is false it will be set to fade to black.
         /// </summary>
@@ -78,15 +111,25 @@ namespace GameController
                         {
                            BindMainMenuActions();
                         }
+
+                        if(bindPauseMenu && !pauseMenuBound)
+                        {
+                            BindPauseMenuActions();
+                        }
                         break;
                     case GameState.Loading:
                         if (bindMainMenu && !mainMenuBound)
                         {
                             BindMainMenuActions();
                         }
+
+                        if (bindPauseMenu && !pauseMenuBound)
+                        {
+                            BindPauseMenuActions();
+                        }
                         break;
                     case GameState.Paused:
-
+                        
                         break;
                 }
             }
@@ -102,13 +145,16 @@ namespace GameController
                     case GameState.Active:
                         if (SceneManager.GetActiveScene().buildIndex > 0)
                         {
-                            mainMenu.ToggleMainMenu(false);
+                            mainMenu.ToggleMenu(false);
+                            
                         }
                         else
                         {
 
-                            mainMenu.ToggleMainMenu(true);
+                            mainMenu.ToggleMenu(true);
                         }
+
+                        pauseMenu.ToggleMenu(false);
                         break;
                     case GameState.Loading:
                         break;
@@ -121,7 +167,7 @@ namespace GameController
                         {
                             if (_gc.GamePaused)
                             {
-
+                                pauseMenu.ToggleMenu(true);
                             }
                         }
                         break;
@@ -138,6 +184,12 @@ namespace GameController
         {
             get { return bindMainMenu; }
             set { bindMainMenu = value; }
+        }
+
+        public bool BindPauseMenu
+        {
+            get { return bindPauseMenu; }
+            set { bindPauseMenu = value; }
         }
 
         public string PlaySceneName
