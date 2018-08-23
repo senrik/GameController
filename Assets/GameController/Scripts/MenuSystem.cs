@@ -63,7 +63,7 @@ namespace GameController
         /// <param name="b">True: clear the sceen. False: fade to black.</param>
         public void FadeScreen(bool b)
         {
-            menuAnim.SetBool("Fade", b);
+            fullCanvas.ScreenFade(b);
         }
 
         // Update is called once per frame
