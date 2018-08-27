@@ -11,6 +11,7 @@ TagManager:
   - InteractableUI
   - ResumeButton
   - MainMenuButton
+  - SceneController
   layers:
   - Default
   - TransparentFX

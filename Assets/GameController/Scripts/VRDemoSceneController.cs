@@ -13,5 +13,6 @@ public class VRDemoSceneController : SceneController {
 	// Update is called once per frame
 	new void Update () {
         base.Update();
+
 	}
 }
