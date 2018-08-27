@@ -15,21 +15,22 @@ namespace GameController
         public float fadeTime = 2.0f;
         public Color fadeColor = new Color(0.01f, 0.01f, 0.01f, 1.0f);
 
-        public Shader fadeShader = null;
+        //public Shader fadeShader = null;
 
         //private Material fadeMaterial = null;
-        //private bool isFading = false;
+        private bool isFading = false;
         private CanvasGroup fadeGrp;
 
         private void Awake()
         {
             //fadeMaterial = (fadeShader != null) ? new Material(fadeShader) : new Material(Shader.Find("Transparent/Diffuse"));
+            fadeGrp = fadeImg.GetComponent<CanvasGroup>();
         }
 
         // Use this for initialization
         void Start()
         {
-            fadeGrp = fadeImg.GetComponent<CanvasGroup>();
+            
         }
 
         private void OnEnable()
@@ -40,6 +41,71 @@ namespace GameController
         private void OnDisable()
         {
             //SceneManager.sceneLoaded -= ScreenFade;
+        }
+        /// <summary>
+        /// Either fades the screen out to black, or fades the screen in depending on the passed in bool value.
+        /// </summary>
+        /// <param name="fade">If true the screen will fade in, otherwise the screen will fade to black.</param>
+        public void ScreenFade(bool fade)
+        {
+            if(!isFading)
+            {
+                isFading = true;
+                StartCoroutine(ScreenFadeCor(fade));
+            }
+        }
+        IEnumerator ScreenFadeCor(bool fade)
+        {
+            float elapsedTime = 0.0f;
+
+            if(!fade)
+            {
+                if(fadeGrp.alpha >= 1.0f)
+                {
+                    isFading = false;
+                }
+            }
+            else
+            {
+                if (fadeGrp.alpha <= 0.0f)
+                {
+                    isFading = false;
+                }
+            }
+
+            while(isFading)
+            {
+                yield return new WaitForEndOfFrame();
+
+                if(!fade)
+                {
+                    if((elapsedTime / fadeTime) >= 1.0f)
+                    {
+                        fadeGrp.alpha = 1.0f;
+                        isFading = false;
+                    }
+                    else
+                    {
+                        fadeGrp.alpha = Mathf.Clamp01(elapsedTime / fadeTime);
+                    }
+                    
+                }
+                else
+                {
+                    if ((elapsedTime / fadeTime) >= 1.0f)
+                    {
+                        fadeGrp.alpha = 0.0f;
+                        isFading = false;
+                    }
+                    else
+                    {
+                        fadeGrp.alpha = 1.0f - Mathf.Clamp01(elapsedTime / fadeTime);
+                    }
+                }
+
+                elapsedTime += Time.deltaTime;                
+            }
+            
         }
 
         //private void ScreenFade(Scene arg0, LoadSceneMode arg1)

@@ -8,6 +8,10 @@ TagManager:
   - SceneMenu
   - PlayButton
   - QuitButton
+  - InteractableUI
+  - ResumeButton
+  - MainMenuButton
+  - SceneController
   layers:
   - Default
   - TransparentFX
@@ -17,9 +21,9 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
+  - PlayerInteract
+  - Terrain
+  - CanTeleport
   - 
   - 
   - 

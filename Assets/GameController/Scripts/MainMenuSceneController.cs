@@ -3,19 +3,24 @@ using GameController;
 
 public class MainMenuSceneController : SceneController {
 
+    public string playSceneName = "viveDemoScene01";
 
-    private void Start()
+    new void Start()
     {
         base.Start();
     }
 
-    private void Update()
+    new void Update()
     {
+        base.Update();
+
         switch (GameController.GameController.State)
         {
             case GameState.Active:
                 break;
             case GameState.Loading:
+                _gc.SetPlaySceneName(playSceneName);
+                
                 break;
             case GameState.Paused:
                 break;

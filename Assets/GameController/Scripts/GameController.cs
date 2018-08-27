@@ -12,14 +12,15 @@ namespace GameController
         
 
         public GameObject playerPrefab;
-        public List<Transform> playerSpawns;
         public List<SceneCard> scenes;
         private static GameState state = GameState.Loading;
         private bool loadScene, pauseGame;
-        private static bool sceneReady = true;
+        private static bool sceneReady = false;
         private string sceneToLoad;
+        
         private MenuSystem _ms;
         private GameObject player;
+        private SceneController currentSceneController;
 
 
         #region Coroutines
@@ -53,14 +54,11 @@ namespace GameController
                 StartCoroutine(LoadScene(scene));
             }
         }
-        public void SetPlayerSpawns(List<Transform> spawns)
+        public void SetPlaySceneName(string n)
         {
-            foreach (Transform t in spawns)
-            {
-                Transform temp = t;
-                playerSpawns.Add(temp);
-            }
-
+            _ms.PlaySceneName = n;
+            _ms.BindMainMenu = true;
+            _ms.BindPauseMenu = true;
         }
         public void PauseGame(bool p)
         {
@@ -103,14 +101,15 @@ namespace GameController
         void Start()
         {
             DontDestroyOnLoad(this);
-            if (playerSpawns.Count < 1)
-            {
-                playerSpawns.Add(transform);
-            }
 
             if (GameObject.FindGameObjectWithTag("Player"))
             {
                 player = GameObject.FindGameObjectWithTag("Player");
+            }
+
+            if (GameObject.FindGameObjectWithTag("SceneController"))
+            {
+                currentSceneController = GameObject.FindGameObjectWithTag("SceneController").GetComponent<SceneController>();
             }
 
             if (!player)
@@ -125,6 +124,8 @@ namespace GameController
                         player.GetComponent<PlayerRig>().DEBUG_MODE = true;
                     }
                 }
+
+                player.transform.position = currentSceneController.playerSpawn.position;
             }
             loadScene = false;
             pauseGame = false;
@@ -134,6 +135,7 @@ namespace GameController
         {
             Debug.Log(string.Format("Attempting to load: {0}", scene));
             _ms.FadeScreen(false);
+            _ms.FadeInStarted = false;
             loadScene = true;
             sceneToLoad = scene;
         }
@@ -168,20 +170,23 @@ namespace GameController
                                 {
                                     player.SetActive(true);
                                 }
+                                
                             }
                         }
-#if (UNITY_EDITOR)
-                        if (Input.GetButtonDown("Pause"))
+                        // If we are not on the main menu
+                        if(SceneManager.GetActiveScene().buildIndex > 0)
                         {
-                            state = GameState.Paused;
-                            pauseGame = true;
+                            // If the Pause button was pressed
+                            if (player.GetComponent<PlayerRig>().PausePressed)
+                            {
+                                // Reset the pause button flags
+                                player.GetComponent<PlayerRig>().ResetPausePressed();
+                                // Switch to the Paused state
+                                state = GameState.Paused;
+                                // Flag the GameController to pause the game (timeScale = 0)
+                                pauseGame = true;
+                            }
                         }
-#else
-                    if (Input.GetButtonDown("Cancel"))
-                    {
-                        LoadMe("MMscene01");
-                    }
-#endif
                         #endregion
                         break;
                     case GameState.Loading:
@@ -219,8 +224,9 @@ namespace GameController
                                     // Pause the game
                                     PauseGame(true);
                                     // If the player presses the pause button
-                                    if (Input.GetButtonDown("Pause"))
+                                    if (player.GetComponent<PlayerRig>().PausePressed)
                                     {
+                                        player.GetComponent<PlayerRig>().ResetPausePressed();
                                         // Flag to resume the game
                                         PauseGame(false);
                                     }
@@ -300,6 +306,11 @@ namespace GameController
         public bool GamePaused
         {
             get { return pauseGame; }
+        }
+
+        public bool LoadingScene
+        {
+            get { return loadScene; }
         }
     }
 }
