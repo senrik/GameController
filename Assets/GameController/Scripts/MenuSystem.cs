@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 using UnityEngine.SceneManagement;
 
 namespace GameController
@@ -13,13 +14,15 @@ namespace GameController
         //public CanvasGroup debugCanvasGroup;
         //public Text debugText;
         public PlayerRig player;
+        public float blackoutTime = 2.0f;
         public bool showDebugPanel = false;
-        private bool mainMenuBound = false, bindMainMenu = false, pauseMenuBound = false, bindPauseMenu;
+        private bool mainMenuBound = false, bindMainMenu = false, pauseMenuBound = false, bindPauseMenu, pauseMenuPlaced;
+        private bool fadeInStarted = false;
         private GameController _gc;
         private CanvasGroup mainMenuCanvasGroup;
         private Animator menuAnim, mapAnim;
         private string playSceneName;
-        
+        private Vector3 tempRot, tempPos;
         
         // Use this for initialization
         void Start()
@@ -55,7 +58,15 @@ namespace GameController
             }
 
             menuAnim = GetComponent<Animator>();
+            tempRot = new Vector3();
+            tempPos = new Vector3();
             
+        }
+
+        IEnumerator FadeIn()
+        {
+            yield return new WaitForSeconds(blackoutTime);
+            FadeScreen(true);
         }
 
         private void BindMainMenuActions()
@@ -97,6 +108,23 @@ namespace GameController
         public void FadeScreen(bool b)
         {
             fullCanvas.ScreenFade(b);
+        }
+
+        private void PlacePauseMenu()
+        {
+            if(!pauseMenuPlaced)
+            {
+                pauseMenu.transform.position = player.headTransform.position;
+                pauseMenu.transform.rotation = player.headTransform.rotation;
+                tempRot = pauseMenu.transform.eulerAngles;
+                tempRot.z = 0;
+                tempRot.x = 0;
+                pauseMenu.transform.eulerAngles = tempRot;
+                tempPos = pauseMenu.transform.position + pauseMenu.transform.forward * 1.5f;
+                tempPos.y = 2.0f;
+                pauseMenu.transform.position = tempPos;
+                pauseMenuPlaced = true;
+            }
         }
 
         // Update is called once per frame
@@ -155,19 +183,35 @@ namespace GameController
                         }
 
                         pauseMenu.ToggleMenu(false);
+                        if(pauseMenuPlaced)
+                        {
+                            pauseMenuPlaced = false;
+                        }
                         break;
                     case GameState.Loading:
                         break;
                     case GameState.Paused:
                         if (_gc.SceneReady)
                         {
-                            FadeScreen(true);
+                            if(!fadeInStarted)
+                            {
+                                StartCoroutine(FadeIn());
+                                fadeInStarted = true;
+                            }
+                            
                         }
                         if (SceneManager.GetActiveScene().buildIndex > 0)
                         {
                             if (_gc.GamePaused)
                             {
-                                pauseMenu.ToggleMenu(true);
+                                if(!pauseMenuPlaced)
+                                {
+                                    PlacePauseMenu();
+                                }
+                                else
+                                {
+                                    pauseMenu.ToggleMenu(true);
+                                }
                             }
                         }
                         break;
@@ -185,7 +229,11 @@ namespace GameController
             get { return bindMainMenu; }
             set { bindMainMenu = value; }
         }
-
+        public bool FadeInStarted
+        {
+            get { return fadeInStarted; }
+            set { fadeInStarted = value; }
+        }
         public bool BindPauseMenu
         {
             get { return bindPauseMenu; }

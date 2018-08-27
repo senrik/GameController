@@ -12,7 +12,6 @@ namespace GameController
         
 
         public GameObject playerPrefab;
-        public List<Transform> playerSpawns;
         public List<SceneCard> scenes;
         private static GameState state = GameState.Loading;
         private bool loadScene, pauseGame;
@@ -21,6 +20,7 @@ namespace GameController
         
         private MenuSystem _ms;
         private GameObject player;
+        private SceneController currentSceneController;
 
 
         #region Coroutines
@@ -53,15 +53,6 @@ namespace GameController
             {
                 StartCoroutine(LoadScene(scene));
             }
-        }
-        public void SetPlayerSpawns(List<Transform> spawns)
-        {
-            foreach (Transform t in spawns)
-            {
-                Transform temp = t;
-                playerSpawns.Add(temp);
-            }
-
         }
         public void SetPlaySceneName(string n)
         {
@@ -110,14 +101,15 @@ namespace GameController
         void Start()
         {
             DontDestroyOnLoad(this);
-            if (playerSpawns.Count < 1)
-            {
-                playerSpawns.Add(transform);
-            }
 
             if (GameObject.FindGameObjectWithTag("Player"))
             {
                 player = GameObject.FindGameObjectWithTag("Player");
+            }
+
+            if (GameObject.FindGameObjectWithTag("SceneController"))
+            {
+                currentSceneController = GameObject.FindGameObjectWithTag("SceneController").GetComponent<SceneController>();
             }
 
             if (!player)
@@ -132,6 +124,8 @@ namespace GameController
                         player.GetComponent<PlayerRig>().DEBUG_MODE = true;
                     }
                 }
+
+                player.transform.position = currentSceneController.playerSpawn.position;
             }
             loadScene = false;
             pauseGame = false;
@@ -141,6 +135,7 @@ namespace GameController
         {
             Debug.Log(string.Format("Attempting to load: {0}", scene));
             _ms.FadeScreen(false);
+            _ms.FadeInStarted = false;
             loadScene = true;
             sceneToLoad = scene;
         }
@@ -311,6 +306,11 @@ namespace GameController
         public bool GamePaused
         {
             get { return pauseGame; }
+        }
+
+        public bool LoadingScene
+        {
+            get { return loadScene; }
         }
     }
 }

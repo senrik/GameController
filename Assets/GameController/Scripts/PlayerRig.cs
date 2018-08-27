@@ -8,6 +8,8 @@ namespace GameController
     {
         public bool DEBUG_MODE = false;
         public MenuSystem menuSystem;
+        public Transform headTransform;
+        public Transform cameraRigTransform;
 
         private PlayerInputHandler _input;
         private GameController _gc;
@@ -23,10 +25,17 @@ namespace GameController
         {
             _gc = gc;
         }
+
         public void ResetPausePressed()
         {
             _input.ResetPausePressed();
         }
+
+        public void SetPlayerPosition(Transform point)
+        {
+            cameraRigTransform.position = point.position;
+        }
+
         // Update is called once per frame
         void Update()
         {

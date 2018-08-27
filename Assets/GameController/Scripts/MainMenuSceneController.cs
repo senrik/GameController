@@ -12,13 +12,15 @@ public class MainMenuSceneController : SceneController {
 
     new void Update()
     {
+        base.Update();
+
         switch (GameController.GameController.State)
         {
             case GameState.Active:
                 break;
             case GameState.Loading:
                 _gc.SetPlaySceneName(playSceneName);
-                _gc.SceneReady = true;
+                
                 break;
             case GameState.Paused:
                 break;

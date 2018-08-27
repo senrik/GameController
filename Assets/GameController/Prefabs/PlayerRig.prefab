@@ -1871,6 +1871,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DEBUG_MODE: 0
   menuSystem: {fileID: 114483199846822920}
+  headTransform: {fileID: 4228260135212710}
+  cameraRigTransform: {fileID: 4291563704380954}
 --- !u!114 &114449369278578514
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1933,6 +1935,7 @@ MonoBehaviour:
   mainMenu: {fileID: 114142266789113028}
   pauseMenu: {fileID: 114315395448777356}
   player: {fileID: 114442595577074396}
+  blackoutTime: 2
   showDebugPanel: 0
 --- !u!114 &114493244430934012
 MonoBehaviour:
