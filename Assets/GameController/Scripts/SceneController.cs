@@ -14,6 +14,13 @@ namespace GameController {
         protected GameController _gc;
         protected PlayerRig _player;
         private bool sceneReady, playerPlaced;
+        private static SceneController currentInstance;
+
+        void Awake()
+        {
+            currentInstance = this;
+        }
+
         // Use this for initialization
         protected void Start()
         {
@@ -85,6 +92,11 @@ namespace GameController {
                 }
             }
 
+        }
+
+        public static SceneController CurrentSceneController
+        {
+            get { return currentInstance; }
         }
     }
 }

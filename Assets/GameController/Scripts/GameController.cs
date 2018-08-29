@@ -109,7 +109,7 @@ namespace GameController
 
             if (GameObject.FindGameObjectWithTag("SceneController"))
             {
-                currentSceneController = GameObject.FindGameObjectWithTag("SceneController").GetComponent<SceneController>();
+                currentSceneController = SceneController.CurrentSceneController; //GameObject.FindGameObjectWithTag("SceneController").GetComponent<SceneController>();
             }
 
             if (!player)
