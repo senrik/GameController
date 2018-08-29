@@ -13,7 +13,7 @@ namespace GameController {
 
         protected GameController _gc;
         protected PlayerRig _player;
-        private bool sceneReady, playerPlaced;
+        protected bool sceneReady, playerPlaced;
         private static SceneController currentInstance;
 
         void Awake()
@@ -50,6 +50,33 @@ namespace GameController {
             }
         }
 
+        /// <summary>
+        /// Update function that is called once per frame when the GameController is in the Active State.
+        /// </summary>
+        protected void ActiveUpdate()
+        {
+
+        }
+
+        /// <summary>
+        /// Update function that is called once per frame when the GameController is in the Loading State. Base sets the GameController's SceneReady function to true if the SceneController has set its sceneReady bool to true.
+        /// </summary>
+        protected void LoadingUpdate()
+        {
+            if (sceneReady && !_gc.SceneReady && !_gc.LoadingScene)
+            {
+                _gc.SceneReady = true;
+            }
+        }
+
+        /// <summary>
+        /// Update function that is called once per frame when the GameController is in the Paused State.
+        /// </summary>
+        protected void PausedUpdate()
+        {
+
+        }
+
         // Update is called once per frame
         protected void Update()
         {
@@ -59,36 +86,6 @@ namespace GameController {
                 if (GameObject.FindGameObjectWithTag("Player"))
                 {
                     _player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerRig>();
-                }
-            }
-            else
-            {
-                switch (GameController.State)
-                {
-                    case GameState.Active:
-                        break;
-                    case GameState.Loading:
-                        if (sceneReady && !_gc.SceneReady && !_gc.LoadingScene)
-                        {
-                            _gc.SceneReady = true;
-                        }
-
-                        if (!sceneReady && playerPlaced)
-                        {
-                            sceneReady = true;
-                            Debug.Log("Scene Ready!");
-                        }
-                        else
-                        {
-                            if(!playerPlaced)
-                            {
-                                PlacePlayer();
-                            }
-                        }
-                        break;
-                    case GameState.Paused:
-                        break;
-
                 }
             }
 

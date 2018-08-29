@@ -57,7 +57,6 @@ namespace GameController
         public void SetPlaySceneName(string n)
         {
             _ms.PlaySceneName = n;
-            _ms.BindMainMenu = true;
             _ms.BindPauseMenu = true;
         }
         public void PauseGame(bool p)
