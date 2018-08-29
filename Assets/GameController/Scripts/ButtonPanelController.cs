@@ -17,5 +17,18 @@ public class ButtonPanelController : MonoBehaviour {
             }
         }
     }
+
+    public UIInterativeElement GetButtonByTag(string tag)
+    {
+        foreach(UIInterativeElement b in buttons)
+        {
+            if(b.tag == tag)
+            {
+                return b;
+            }
+        }
+
+        return null;
+    }
     
 }

@@ -41,4 +41,16 @@ public class MenuController : MonoBehaviour {
             }
         }
     }
+
+    public UIInterativeElement GetButtonByTag(string tag)
+    {
+        if(buttonPanel.GetButtonByTag(tag) != null)
+        {
+            return buttonPanel.GetButtonByTag(tag);
+        }
+        else
+        {
+            throw new System.NullReferenceException("No button with tag: " + tag + " was found in the Button Panel.");
+        }
+    }
 }

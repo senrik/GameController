@@ -20,10 +20,10 @@ public class PauseMenuController : MenuController {
         {
             for (int i = 0; i < buttonPanel.buttons.Count; i++)
             {
-                if (buttonPanel.buttons[i].CompareTag("MainMenuButton"))
+                if (GetButtonByTag("MainMenuButton"))
                 {
                     Debug.Log("MainMenuButton found!");
-                    return buttonPanel.buttons[i];
+                    return GetButtonByTag("MainMenuButton");
                 }
             }
             Debug.Log("MainMenuButton not found!");
@@ -37,10 +37,10 @@ public class PauseMenuController : MenuController {
         {
             for (int i = 0; i < buttonPanel.buttons.Count; i++)
             {
-                if (buttonPanel.buttons[i].CompareTag("ResumeButton"))
+                if (GetButtonByTag("ResumeButton"))
                 {
                     Debug.Log("ResumeButton found!");
-                    return buttonPanel.buttons[i];
+                    return GetButtonByTag("ResumeButton");
                 }
             }
             Debug.Log("ResumeButton not found!");
