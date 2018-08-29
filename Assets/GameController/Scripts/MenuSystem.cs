@@ -19,7 +19,7 @@ namespace GameController
         private bool mainMenuBound = false, bindMainMenu = false, pauseMenuBound = false, bindPauseMenu, pauseMenuPlaced;
         private bool fadeInStarted = false;
         private GameController _gc;
-        private CanvasGroup mainMenuCanvasGroup;
+        //private CanvasGroup mainMenuCanvasGroup;
         private Animator menuAnim, mapAnim;
         private string playSceneName;
         private Vector3 tempRot, tempPos;
@@ -52,15 +52,20 @@ namespace GameController
                 player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerRig>();
              
             }
-            if (!mainMenuCanvasGroup)
-            {
-                mainMenuCanvasGroup = mainMenu.GetComponent<CanvasGroup>();
-            }
+
+            //if (!mainMenuCanvasGroup)
+            //{
+            //    mainMenuCanvasGroup = mainMenu.GetComponent<CanvasGroup>();
+            //}
 
             menuAnim = GetComponent<Animator>();
             tempRot = new Vector3();
             tempPos = new Vector3();
-            
+
+            if(!pauseMenuBound)
+            {
+                BindPauseMenuActions();
+            }
         }
 
         IEnumerator FadeIn()
@@ -69,21 +74,7 @@ namespace GameController
             FadeScreen(true);
         }
 
-        private void BindMainMenuActions()
-        {
-            Debug.Log("Binding Main Menu Buttons");
-            try
-            {
-                mainMenu.PlayButton.OnInteract.AddListener(delegate { _gc.LoadMe(playSceneName); });
-            }
-            catch(System.Exception e)
-            {
-                Debug.Log(string.Format("Exception \"{0}\" encountered while trying to set the play button action.", e.Message));
-            }
-
-            mainMenuBound = true;
-            
-        }
+        
 
         private void BindPauseMenuActions()
         {
@@ -135,21 +126,12 @@ namespace GameController
                 switch (GameController.State)
                 {
                     case GameState.Active:
-                        if (bindMainMenu && !mainMenuBound)
-                        {
-                           BindMainMenuActions();
-                        }
-
                         if(bindPauseMenu && !pauseMenuBound)
                         {
                             BindPauseMenuActions();
                         }
                         break;
                     case GameState.Loading:
-                        if (bindMainMenu && !mainMenuBound)
-                        {
-                            BindMainMenuActions();
-                        }
 
                         if (bindPauseMenu && !pauseMenuBound)
                         {
@@ -171,17 +153,6 @@ namespace GameController
                 switch (GameController.State)
                 {
                     case GameState.Active:
-                        if (SceneManager.GetActiveScene().buildIndex > 0)
-                        {
-                            mainMenu.ToggleMenu(false);
-                            
-                        }
-                        else
-                        {
-
-                            mainMenu.ToggleMenu(true);
-                        }
-
                         pauseMenu.ToggleMenu(false);
                         if(pauseMenuPlaced)
                         {

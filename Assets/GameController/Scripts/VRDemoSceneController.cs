@@ -10,9 +10,45 @@ public class VRDemoSceneController : SceneController {
         base.Start();
 	}
 	
-	// Update is called once per frame
-	new void Update () {
+
+    new void LoadingUpdate()
+    {
+        base.LoadingUpdate();
+
+        if (!sceneReady && playerPlaced)
+        {
+            sceneReady = true;
+        }
+        else
+        {
+            if (!playerPlaced)
+            {
+                PlacePlayer();
+            }
+        }
+    }
+
+    new void Update()
+    {
         base.Update();
 
-	}
+        switch (GameController.GameController.State)
+        {
+            case GameState.Active:
+                #region
+                ActiveUpdate();
+                #endregion
+                break;
+            case GameState.Loading:
+                #region
+                LoadingUpdate();
+                #endregion
+                break;
+            case GameState.Paused:
+                #region
+                LoadingUpdate();
+                #endregion
+                break;
+        }
+    }
 }
