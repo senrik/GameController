@@ -137,7 +137,7 @@ namespace GameController
                         {
                             hitPoint = hit.point;
                             ShowUILaser(hit);
-                            selectedUIElement = hit.collider.GetComponent<ButtonBounds>().InterableElement;
+                            selectedUIElement = hit.collider.GetComponent<ButtonBounds>().InteractableElement;
                             if (selectedUIElement != null)
                             {
                                 selectedUIElement.OnHoverStart();
@@ -182,7 +182,7 @@ namespace GameController
                         {
                             hitPoint = hit.point;
                             ShowUILaser(hit);
-                            selectedUIElement = hit.collider.GetComponent<ButtonBounds>().InterableElement;
+                            selectedUIElement = hit.collider.GetComponent<ButtonBounds>().InteractableElement;
                             if (selectedUIElement != null)
                             {
                                 selectedUIElement.OnHoverStart();

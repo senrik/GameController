@@ -31,7 +31,7 @@ public class ButtonBounds : MonoBehaviour {
         _elem = (transform.parent.GetComponent<UIInterativeElement>()) ? transform.parent.GetComponent<UIInterativeElement>() : null;
     }
 
-    public UIInterativeElement InterableElement
+    public UIInterativeElement InteractableElement
     {
         get { return _elem; }
     }
