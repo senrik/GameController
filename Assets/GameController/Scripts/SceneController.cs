@@ -14,12 +14,19 @@ namespace GameController {
         protected GameController _gc;
         protected PlayerRig _player;
         protected bool sceneReady, playerPlaced;
+        private static SceneController instance;
+
+        void Awake()
+        {
+            instance = this;
+        }
+
         // Use this for initialization
         protected void Start()
         {
-            if (GameObject.FindGameObjectWithTag("GameController"))
+            if (GameController.ActiveGameController)
             {
-                _gc = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+                _gc = GameController.ActiveGameController;
             }
             else
             {
@@ -41,6 +48,11 @@ namespace GameController {
                 _player.SetPlayerPosition(playerSpawn);
                 playerPlaced = true;
             }
+        }
+
+        public static SceneController ActiveSceneController
+        {
+            get { return instance; }
         }
 
         /// <summary>

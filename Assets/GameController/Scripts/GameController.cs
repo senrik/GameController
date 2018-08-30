@@ -21,6 +21,7 @@ namespace GameController
         private MenuSystem _ms;
         private GameObject player;
         private SceneController currentSceneController;
+        private static GameController instance;
 
 
         #region Coroutines
@@ -54,11 +55,13 @@ namespace GameController
                 StartCoroutine(LoadScene(scene));
             }
         }
+
         public void SetPlaySceneName(string n)
         {
             _ms.PlaySceneName = n;
             _ms.BindPauseMenu = true;
         }
+
         public void PauseGame(bool p)
         {
             if (p)
@@ -96,6 +99,11 @@ namespace GameController
 
         }
 
+        void Awake()
+        {
+            instance = this;
+        }
+
         // Use this for initialization
         void Start()
         {
@@ -106,9 +114,9 @@ namespace GameController
                 player = GameObject.FindGameObjectWithTag("Player");
             }
 
-            if (GameObject.FindGameObjectWithTag("SceneController"))
+            if (SceneController.ActiveSceneController)
             {
-                currentSceneController = GameObject.FindGameObjectWithTag("SceneController").GetComponent<SceneController>();
+                currentSceneController = SceneController.ActiveSceneController; 
             }
 
             if (!player)
@@ -310,6 +318,11 @@ namespace GameController
         public bool LoadingScene
         {
             get { return loadScene; }
+        }
+
+        public static GameController ActiveGameController
+        {
+            get { return instance; }
         }
     }
 }
