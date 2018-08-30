@@ -31,9 +31,10 @@ namespace GameController
             {
                 if (!_gc)
                 {
-                    if (GameObject.FindGameObjectWithTag("GameController"))
+                    if (GameController.ActiveGameController)
                     {
-                        _gc = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+                        _gc = GameController.ActiveGameController;
+                        
                     }
                     else
                     {
