@@ -8,7 +8,6 @@ namespace GameController
     {
 
         public FullscreenCanvas fullCanvas;
-        public MainMenuController mainMenu;
         public PauseMenuController pauseMenu;
         //public GameObject mapCanvas;
         //public CanvasGroup debugCanvasGroup;
@@ -16,12 +15,11 @@ namespace GameController
         public PlayerRig player;
         public float blackoutTime = 2.0f;
         public bool showDebugPanel = false;
-        private bool mainMenuBound = false, bindMainMenu = false, pauseMenuBound = false, bindPauseMenu, pauseMenuPlaced;
+        private bool pauseMenuBound = false, bindPauseMenu, pauseMenuPlaced;
         private bool fadeInStarted = false;
         private GameController _gc;
-        //private CanvasGroup mainMenuCanvasGroup;
         private Animator menuAnim, mapAnim;
-        private string playSceneName;
+        private string playSceneName, mainMenuSceneName;
         private Vector3 tempRot, tempPos;
         
         // Use this for initialization
@@ -54,14 +52,11 @@ namespace GameController
              
             }
 
-            //if (!mainMenuCanvasGroup)
-            //{
-            //    mainMenuCanvasGroup = mainMenu.GetComponent<CanvasGroup>();
-            //}
-
             menuAnim = GetComponent<Animator>();
             tempRot = new Vector3();
             tempPos = new Vector3();
+
+            mainMenuSceneName = SceneManager.GetSceneByBuildIndex(0).name;
 
             if(!pauseMenuBound)
             {
@@ -82,7 +77,7 @@ namespace GameController
             Debug.Log("Binding Pause Menu Buttons");
             try
             {
-                pauseMenu.MainMenuButton.OnInteract.AddListener(delegate { _gc.LoadMe("MainMenuScene"); });
+                pauseMenu.MainMenuButton.OnInteract.AddListener(delegate { _gc.LoadMe(mainMenuSceneName); });
                 pauseMenu.ResumeButton.OnInteract.AddListener(delegate { _gc.PauseGame(false); });
             }
             catch (System.Exception e)
@@ -196,11 +191,6 @@ namespace GameController
             get { return fullCanvas.ScreenClear; }
         }
 
-        public bool BindMainMenu
-        {
-            get { return bindMainMenu; }
-            set { bindMainMenu = value; }
-        }
         public bool FadeInStarted
         {
             get { return fadeInStarted; }
