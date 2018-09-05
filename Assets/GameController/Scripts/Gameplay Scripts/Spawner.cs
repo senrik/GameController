@@ -10,32 +10,35 @@ namespace GameController
         public GameObject objectPrefab;
         public float spawnRate = 0.1f;
         private GameObject[] objPool = new GameObject[30];
-        private Transform spawnTransform;
+        public List<Transform> spawnTransforms;
         private float spawnTimer;
         // Use this for initialization
-        void Start()
+        protected void Start()
         {
             spawnTimer = spawnRate;
-            spawnTransform = transform;
+
+            spawnTransforms.Add(transform);
             for (int i = 0; i < objPool.Length; i++)
             {
-                objPool[i] = Instantiate(objectPrefab, spawnTransform.position, Quaternion.identity);
+                objPool[i] = Instantiate(objectPrefab, spawnTransforms[spawnTransforms.Count - 1].position, Quaternion.identity);
             }
         }
 
-        void SpawnObj()
+        protected void SpawnObj(int location = 0)
         {
             for(int i = 0; i < objPool.Length; i++)
             {
                 if (!objPool[i].activeSelf)
                 {
                     objPool[i].SetActive(true);
+                    objPool[i].transform.position = spawnTransforms[location].position;
                     break;
                 }
             }
         }
+
         // Update is called once per frame
-        void Update()
+        protected void Update()
         {
             if (spawnTimer >= spawnRate)
             {
