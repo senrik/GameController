@@ -76,6 +76,7 @@ GameObject:
   - component: {fileID: 114223247739238612}
   - component: {fileID: 114309792133070312}
   - component: {fileID: 114858131425513752}
+  - component: {fileID: 114207062551235288}
   m_Layer: 0
   m_Name: Controller (right)
   m_TagString: Untagged
@@ -206,7 +207,7 @@ GameObject:
   - component: {fileID: 114827032152831448}
   m_Layer: 8
   m_Name: Controller Grab Area
-  m_TagString: Untagged
+  m_TagString: ControllerInteract
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -309,6 +310,7 @@ GameObject:
   - component: {fileID: 114598405059097356}
   - component: {fileID: 114776136151652040}
   - component: {fileID: 114008983622969064}
+  - component: {fileID: 114942215457029198}
   m_Layer: 0
   m_Name: Controller (left)
   m_TagString: Untagged
@@ -380,7 +382,7 @@ GameObject:
   - component: {fileID: 114700265598293140}
   m_Layer: 8
   m_Name: Controller Grab Area
-  m_TagString: Untagged
+  m_TagString: ControllerInteract
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -539,7 +541,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1841465300326850}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.21298563, y: 0.1, z: -0.23881102}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4291563704380954}
@@ -1268,6 +1270,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasScale: 0.01
+--- !u!114 &114207062551235288
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1132077046653246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbe630aed6766894f9c3414771994afe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114223247739238612
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1396,6 +1409,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89d0e24b4a4dcc444a93d4cae0fa026f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  otherController: {fileID: 114776136151652040}
 --- !u!114 &114315395448777356
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1517,7 +1531,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fullCanvas: {fileID: 114157775263456612}
-  mainMenu: {fileID: 0}
   pauseMenu: {fileID: 114315395448777356}
   player: {fileID: 114442595577074396}
   blackoutTime: 2
@@ -1771,6 +1784,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89d0e24b4a4dcc444a93d4cae0fa026f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  otherController: {fileID: 114309792133070312}
 --- !u!114 &114811253510725308
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1919,6 +1933,17 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114942215457029198
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1472816487870164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbe630aed6766894f9c3414771994afe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114951933051563134
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2135,8 +2160,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 149, y: 0}
+  m_SizeDelta: {x: 360, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224085530712739964
 RectTransform:

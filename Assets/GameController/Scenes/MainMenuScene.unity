@@ -156,7 +156,7 @@ MonoBehaviour:
   gameControllerPrefab: {fileID: 1223054658603058, guid: f288e096a2db2e147afbf41e40fa0ef3,
     type: 2}
   playerSpawn: {fileID: 2085327416}
-  playSceneName: viveDemoScene01
+  playSceneName: PlayScene
   mainMenu: {fileID: 1518399556}
 --- !u!1 &563996580
 GameObject:
