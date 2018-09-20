@@ -12,6 +12,10 @@ TagManager:
   - ResumeButton
   - MainMenuButton
   - SceneController
+  - Equipable
+  - projectile
+  - FxTemporaire
+  - ControllerInteract
   layers:
   - Default
   - TransparentFX

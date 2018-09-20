@@ -8,7 +8,10 @@ namespace GameController
     {
 
         public float lifespan = 2;
+        public float restTime = 5;
+        public GameObject rootObj;
         private Vector3 initPos = Vector3.zero;
+        private bool sleep = true;
 
         IEnumerator ObjLife()
         {
@@ -17,6 +20,12 @@ namespace GameController
             Debug.Log("Spawnable lifespan end.");
         }
 
+        IEnumerator PutToSleep()
+        {
+            yield return new WaitForSeconds(restTime);
+            sleep = true;
+            gameObject.SetActive(false);
+        }
         private void OnEnable()
         {
             StartCoroutine(ObjLife());
@@ -25,26 +34,36 @@ namespace GameController
             {
                 initPos = transform.position;
             }
+            ToggleObj(true);
         }
 
         public void ToggleObj(bool t)
         {
             if (t)
             {
-                if (!gameObject.activeSelf)
+                if (!rootObj.activeSelf)
                 {
-                    gameObject.SetActive(true);
+                    rootObj.SetActive(true);
+                    GetComponent<Rigidbody>().WakeUp();
+                    sleep = false;
                 }
             }
             else
             {
-                if (gameObject.activeSelf)
+                if (rootObj.activeSelf)
                 {
                     GetComponent<Rigidbody>().Sleep();
                     transform.position = initPos;
-                    gameObject.SetActive(false);
+                    rootObj.SetActive(false);
+                    StartCoroutine(PutToSleep());
                 }
             }
+        }
+
+        public bool Sleeping
+        {
+            get { return sleep; }
+            set { sleep = value; }
         }
     }
 }

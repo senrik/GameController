@@ -7,7 +7,7 @@ namespace GameController
     public class LaserPointer : MonoBehaviour
     {
 
-        public ViveControllerInputTest inputHandler;
+        public ControllerInputHandler inputHandler;
         public GameObject laserPrefab;
         public GameObject uiPointerPrefab;
 
@@ -38,9 +38,9 @@ namespace GameController
 
         void Awake()
         {
-            if (GetComponent<ViveControllerInputTest>())
+            if (GetComponent<ControllerInputHandler>())
             {
-                inputHandler = GetComponent<ViveControllerInputTest>();
+                inputHandler = GetComponent<ControllerInputHandler>();
             }
             laserScale = new Vector3();
         }

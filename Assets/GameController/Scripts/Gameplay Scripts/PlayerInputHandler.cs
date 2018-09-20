@@ -7,7 +7,7 @@ namespace GameController
     public class PlayerInputHandler : MonoBehaviour
     {
 
-        public ViveControllerInputTest leftController, rightController;
+        public ControllerInputHandler leftController, rightController;
 
         private bool pausePressed = false;
 
