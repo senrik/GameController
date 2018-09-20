@@ -2,23 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ControllerGrabObject : MonoBehaviour {
+public class ControllerGrabObject : MonoBehaviour
+{
 
-    public ViveControllerInputTest inputHandler;
+    public ControllerInputHandler inputHandler;
 
     private GameObject collidingObject;
     private GameObject objectInHand;
     private FixedJoint _fixedJoint;
 
 
-	private SteamVR_Controller.Device Controller
+    private SteamVR_Controller.Device Controller
     {
         get { return inputHandler.Stick; }
     }
 
     private void Awake()
     {
-        if(!GetComponent<FixedJoint>())
+        if (!GetComponent<FixedJoint>())
         {
             _fixedJoint = gameObject.AddComponent<FixedJoint>();
 
@@ -29,7 +30,7 @@ public class ControllerGrabObject : MonoBehaviour {
 
     private void SetCollidingObject(Collider col)
     {
-        if(collidingObject || !col.GetComponent<Rigidbody>() || !col.transform.parent)
+        if (collidingObject || !col.GetComponent<Rigidbody>() || !col.transform.parent)
         {
             return;
         }
@@ -48,7 +49,7 @@ public class ControllerGrabObject : MonoBehaviour {
 
     public void OnTriggerExit(Collider other)
     {
-        if(!collidingObject)
+        if (!collidingObject)
         {
             return;
         }
@@ -67,10 +68,10 @@ public class ControllerGrabObject : MonoBehaviour {
 
     private void ReleaseObject()
     {
-        if(GetComponent<FixedJoint>())
+        if (GetComponent<FixedJoint>())
         {
             GetComponent<FixedJoint>().connectedBody = null;
-            
+
 
             objectInHand.GetComponent<Rigidbody>().velocity = Controller.velocity;
             objectInHand.GetComponent<Rigidbody>().angularVelocity = Controller.angularVelocity;
@@ -80,21 +81,24 @@ public class ControllerGrabObject : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
-		if(Controller.GetHairTriggerDown())
+    void Update()
+    {
+        if (Controller.GetHairTriggerDown())
         {
-            if(collidingObject)
+
+            if (collidingObject)
             {
                 GrabObject();
             }
         }
 
-        if(Controller.GetHairTriggerUp())
+        if (Controller.GetHairTriggerUp())
         {
-            if(objectInHand)
+            if (objectInHand)
             {
                 ReleaseObject();
             }
         }
-	}
+    }
 }
+

@@ -19,6 +19,10 @@ namespace GameController {
         void Awake()
         {
             instance = this;
+            if(!playerSpawn)
+            {
+                playerSpawn = transform;
+            }
         }
 
         // Use this for initialization

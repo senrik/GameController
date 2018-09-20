@@ -24,31 +24,32 @@ namespace GameController
             }
         }
 
-        protected void SpawnObj(int location = 0)
+        public GameObject SpawnObj(int location = 0)
         {
             for(int i = 0; i < objPool.Length; i++)
             {
-                if (!objPool[i].activeSelf)
+                if (!objPool[i].activeSelf && objPool[i].GetComponent<SpawnableObj>().Sleeping)
                 {
                     objPool[i].SetActive(true);
                     objPool[i].transform.position = spawnTransforms[location].position;
-                    break;
+                    return objPool[i];
                 }
             }
+            return null;
         }
 
         // Update is called once per frame
         protected void Update()
         {
-            if (spawnTimer >= spawnRate)
-            {
-                SpawnObj();
-                spawnTimer = 0.0f;
-            }
-            else
-            {
-                spawnTimer += Time.deltaTime;
-            }
+            //if (spawnTimer >= spawnRate)
+            //{
+            //    SpawnObj();
+            //    spawnTimer = 0.0f;
+            //}
+            //else
+            //{
+            //    spawnTimer += Time.deltaTime;
+            //}
         }
     }
 }
