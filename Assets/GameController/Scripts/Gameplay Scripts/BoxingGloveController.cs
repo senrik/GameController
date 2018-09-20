@@ -14,7 +14,12 @@ public class BoxingGloveController : EquipableController {
 
         fireRateTimer = 0.0f;
 	}
-	
+
+	void OnDestroy()
+    {
+        // clear out the object pool for bullets.
+
+    }
 	// Update is called once per frame
 	void Update () {
         // If the input handler is accepting input

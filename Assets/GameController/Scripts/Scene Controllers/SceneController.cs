@@ -99,5 +99,10 @@ namespace GameController {
             }
 
         }
+
+        public static SceneController CurrentSceneController
+        {
+            get { return instance; }
+        }
     }
 }

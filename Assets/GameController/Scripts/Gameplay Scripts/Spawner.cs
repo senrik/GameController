@@ -24,6 +24,14 @@ namespace GameController
             }
         }
 
+        private void OnDestroy()
+        {
+            for(int i = 0; i < objPool.Length; i++)
+            {
+                Destroy(objPool[i]);
+            }
+        }
+
         public GameObject SpawnObj(int location = 0)
         {
             for(int i = 0; i < objPool.Length; i++)
