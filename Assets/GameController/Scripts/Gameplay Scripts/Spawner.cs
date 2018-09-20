@@ -21,6 +21,11 @@ namespace GameController
             for (int i = 0; i < objPool.Length; i++)
             {
                 objPool[i] = Instantiate(objectPrefab, spawnTransforms[spawnTransforms.Count - 1].position, Quaternion.identity);
+
+                if(objPool[i].activeSelf)
+                {
+                    objPool[i].SetActive(false);
+                }
             }
         }
 
