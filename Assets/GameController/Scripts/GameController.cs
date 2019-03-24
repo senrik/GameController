@@ -16,7 +16,7 @@ namespace GameController
         public List<SceneCard> scenes;
         private static GameState state = GameState.Loading;
         private bool loadScene, pauseGame;
-        private static bool sceneReady = true;
+        private static bool sceneReady;
         private string sceneToLoad;
         private MenuSystem _ms;
         private GameObject player;
@@ -187,21 +187,9 @@ namespace GameController
                     case GameState.Loading:
                         #region Loading
                         // If the current scene is not the main menu scene
-                        if (SceneManager.GetActiveScene().buildIndex > 0)
+                        if (sceneReady)
                         {
-                            if (sceneReady)
-                            {
-                                state = GameState.Paused;
-                            }
-                        }
-                        else
-                        {
-                            if (sceneReady)
-                            {
-                                state = GameState.Paused;
-                            }
-
-
+                            state = GameState.Paused;
                         }
                         #endregion
                         break;
@@ -283,7 +271,7 @@ namespace GameController
                 }
             }
 
-            Debug.Log("Game State: " + state.ToString());
+            //Debug.Log("Game State: " + state.ToString());
         }
 
         public static GameState State
