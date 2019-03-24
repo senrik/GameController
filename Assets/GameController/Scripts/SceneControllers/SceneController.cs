@@ -28,8 +28,12 @@ namespace GameController {
 
         }
 
-        // Update is called once per frame
-        protected void Update()
+        protected virtual void ActiveUpdate()
+        {
+            
+        }
+
+        protected virtual void LoadingUpdate()
         {
             if (sceneReady && !_gc.SceneReady)
             {
@@ -39,6 +43,36 @@ namespace GameController {
             if (!sceneReady)
             {
                 sceneReady = true;
+            }
+        }
+
+        protected virtual void PausedUpdate()
+        {
+
+        }
+
+        // Update is called once per frame
+        private void Update()
+        {
+            
+
+            switch(GameController.State)
+            {
+                case GameState.Active:
+                    #region ActiveUpdate
+                    ActiveUpdate();
+                    #endregion
+                    break;
+                case GameState.Loading:
+                    #region LoadingUpdate
+                    LoadingUpdate();
+                    #endregion
+                    break;
+                case GameState.Paused:
+                    #region PausedUpdate
+                    PausedUpdate();
+                    #endregion
+                    break;
             }
         }
     }
