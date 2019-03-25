@@ -16,26 +16,36 @@ namespace GameController {
         protected bool sceneReady, playerPlaced;
         private static SceneController instance;
 
-        void Awake()
+        protected void Awake()
         {
             instance = this;
             if(!playerSpawn)
             {
                 playerSpawn = transform;
             }
+
+            if (GameController.ActiveGameController)
+            {
+                _gc = GameController.ActiveGameController;
+            }
         }
 
         // Use this for initialization
         protected void Start()
         {
-            if (GameController.ActiveGameController)
+            /* There was no game controller present at the Awake time */
+            if (_gc == null)
             {
-                _gc = GameController.ActiveGameController;
+                if (GameController.ActiveGameController)
+                {
+                    _gc = GameController.ActiveGameController;
+                }
+                else
+                {
+                    _gc = Instantiate(gameControllerPrefab).GetComponent<GameController>();
+                }
             }
-            else
-            {
-                _gc = Instantiate(gameControllerPrefab).GetComponent<GameController>();
-            }
+            
             
             if(GameObject.FindGameObjectWithTag("Player"))
             {
@@ -48,7 +58,7 @@ namespace GameController {
         {
             if(_player && !playerPlaced)
             {
-                Debug.Log("Setting player to spawn point: " + playerSpawn.position);
+                //Debug.Log("Setting player to spawn point: " + playerSpawn.position);
                 _player.SetPlayerPosition(playerSpawn);
                 playerPlaced = true;
             }
@@ -92,9 +102,9 @@ namespace GameController {
 
             if(!_player)
             {
-                if (GameObject.FindGameObjectWithTag("Player"))
+                if (GameController.ActiveGameController.ActivePlayer != null)
                 {
-                    _player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerRig>();
+                    _player = GameController.ActiveGameController.ActivePlayer;
                 }
             }
 

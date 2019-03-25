@@ -53,3 +53,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameControllerPrefab: {fileID: 1223054658603058, guid: f288e096a2db2e147afbf41e40fa0ef3,
     type: 2}
+  playerSpawn: {fileID: 0}

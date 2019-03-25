@@ -1,0 +1,143 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace GameController
+{
+    public class SpawnableObj : MonoBehaviour
+    {
+
+        public float lifespan = 2;
+<<<<<<< HEAD
+        public float restTime = 10.0f;
+        public GameObject rootObj;
+        public bool isPhysicsObj;
+        protected Vector3 initPos = Vector3.zero;
+        protected bool sleeping = true;
+        protected IEnumerator ObjLife()
+=======
+        public float restTime = 5;
+        public GameObject rootObj;
+        public bool isPhysicsObj;
+        private Vector3 initPos = Vector3.zero;
+        private bool sleep = true;
+
+        IEnumerator ObjLife()
+>>>>>>> GameController
+        {
+            yield return new WaitForSeconds(lifespan);
+            ToggleObj(false);
+            Debug.Log("Spawnable lifespan end.");
+        }
+
+<<<<<<< HEAD
+        IEnumerator RestTimer()
+        {
+            yield return new WaitForSeconds(restTime);
+            gameObject.SetActive(false);
+        }
+
+        protected IEnumerator ToggleTimer(bool t, float toggleTime)
+=======
+        IEnumerator PutToSleep()
+        {
+            yield return new WaitForSeconds(restTime);
+            sleep = true;
+            gameObject.SetActive(false);
+        }
+        private void OnEnable()
+        {
+            StartCoroutine(ObjLife());
+            Debug.Log("Spawnable lifespan start.");
+            if(initPos == Vector3.zero)
+            {
+                initPos = transform.position;
+            }
+            ToggleObj(true);
+        }
+
+        IEnumerator ToggleTimer(bool t, float toggleTime)
+>>>>>>> GameController
+        {
+            yield return new WaitForSeconds(toggleTime);
+            if (t)
+            {
+<<<<<<< HEAD
+                // Activate the Object's parts
+                if(isPhysicsObj)
+                {
+                    if (rootObj.GetComponent<Rigidbody>())
+                    {
+                        rootObj.GetComponent<Rigidbody>().WakeUp();
+                        rootObj.GetComponent<Rigidbody>().isKinematic = false;
+                    }
+=======
+                if (!rootObj.activeSelf)
+                {
+                    rootObj.SetActive(true);
+                    if(isPhysicsObj)
+                    {
+                        if (rootObj.GetComponent<Rigidbody>())
+                        {
+                            rootObj.GetComponent<Rigidbody>().WakeUp();
+                            rootObj.GetComponent<Rigidbody>().isKinematic = false;
+                        }
+                    }
+
+                    sleep = false;
+>>>>>>> GameController
+                }
+
+                rootObj.SetActive(true);
+            }
+            else
+            {
+                if (rootObj.activeSelf)
+                {
+<<<<<<< HEAD
+                    // Deactivate the Object's parts
+                    if(isPhysicsObj)
+=======
+                    if (isPhysicsObj)
+>>>>>>> GameController
+                    {
+                        if (rootObj.GetComponent<Rigidbody>())
+                        {
+                            rootObj.GetComponent<Rigidbody>().Sleep();
+                            rootObj.GetComponent<Rigidbody>().isKinematic = true;
+                        }
+                    }
+<<<<<<< HEAD
+                    StartCoroutine(RestTimer());
+                    rootObj.SetActive(false);
+=======
+                    transform.position = initPos;
+                    rootObj.SetActive(false);
+                    StartCoroutine(PutToSleep());
+>>>>>>> GameController
+                }
+            }
+        }
+
+        public void ToggleObj(bool t, float toggleTime = 0)
+        {
+<<<<<<< HEAD
+            sleeping = !t;
+=======
+            sleep = !t;
+>>>>>>> GameController
+            StartCoroutine(ToggleTimer(t, toggleTime));
+        }
+
+        public bool Sleeping
+        {
+<<<<<<< HEAD
+            get { return sleeping; }
+=======
+            get { return sleep; }
+            set { sleep = value; }
+>>>>>>> GameController
+        }
+    }
+}
+

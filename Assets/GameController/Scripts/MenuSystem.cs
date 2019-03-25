@@ -43,7 +43,7 @@ namespace GameController
             }
             catch(System.Exception e)
             {
-                Debug.Log(e);
+                //Debug.Log(e);
             }
             
             if (!player)
@@ -74,7 +74,7 @@ namespace GameController
 
         private void BindPauseMenuActions()
         {
-            Debug.Log("Binding Pause Menu Buttons");
+            //Debug.Log("Binding Pause Menu Buttons");
             try
             {
                 pauseMenu.MainMenuButton.OnInteract.AddListener(delegate { _gc.LoadMe(mainMenuSceneName); });
@@ -82,11 +82,13 @@ namespace GameController
             }
             catch (System.Exception e)
             {
-                Debug.Log(e);
+                //Debug.Log(e);
             }
 
             pauseMenuBound = true;
         }
+
+        
 
         /// <summary>
         /// Sets the bool in the MenuSystem's Animtor to the passed in value. If it is true the screen be set to clear. If it is false it will be set to fade to black.

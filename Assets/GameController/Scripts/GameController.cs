@@ -35,7 +35,7 @@ namespace GameController
             while (!ao.isDone)
             {
                 float progress = Mathf.Clamp01(ao.progress / 0.9f);
-                //Debug.Log("Loading Progress: " + (progress * 100) + "%");
+                //////Debug.Log("Loading Progress: " + (progress * 100) + "%");
 
                 if (ao.progress == 0.9f)
                 {
@@ -66,7 +66,7 @@ namespace GameController
         {
             if (p)
             {
-                //Debug.Log("PauseGame called");
+                //////Debug.Log("PauseGame called");
                 if (Time.timeScale > 0)
                 {
                     Time.timeScale = 0;
@@ -81,14 +81,14 @@ namespace GameController
             }
             else
             {
-                //Debug.Log("ResumeGame called.");
+                //////Debug.Log("ResumeGame called.");
                 if (Time.timeScale < 1)
                 {
                     Time.timeScale = 1;
                 }
                 if (Cursor.lockState != CursorLockMode.Locked)
                 {
-                    //Debug.Log("Locking the cursor.");
+                    //////Debug.Log("Locking the cursor.");
                     Cursor.lockState = CursorLockMode.Locked;
                 }
 
@@ -140,7 +140,7 @@ namespace GameController
 
         public void LoadMe(string scene)
         {
-            Debug.Log(string.Format("Attempting to load: {0}", scene));
+            ////Debug.Log(string.Format("Attempting to load: {0}", scene));
             _ms.FadeScreen(false);
             _ms.FadeInStarted = false;
             loadScene = true;
@@ -296,7 +296,7 @@ namespace GameController
                 }
             }
 
-            Debug.Log("Game State: " + state.ToString());
+            //Debug.Log("Game State: " + state.ToString());
         }
 
         public static GameState State
@@ -323,6 +323,11 @@ namespace GameController
         public static GameController ActiveGameController
         {
             get { return instance; }
+        }
+
+        public PlayerRig ActivePlayer
+        {
+            get { return player.GetComponent<PlayerRig>(); }
         }
     }
 }

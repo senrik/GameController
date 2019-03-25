@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ControllerInputHandler : MonoBehaviour {
 
+    public GameObject controllerModel;
+
     public ControllerInputHandler otherController;
 
     private SteamVR_TrackedObject trackedObj;
@@ -13,7 +15,8 @@ public class ControllerInputHandler : MonoBehaviour {
         get { return SteamVR_Controller.Input((int)trackedObj.index); }
     }
 
-    private bool applicationMenuPressed = false, triggerPressed = false, acceptingInput;
+    private bool applicationMenuPressed = false, triggerPressed = false, acceptingInput, triggerClicked = false;
+    
     void Awake()
     {
         trackedObj = GetComponent<SteamVR_TrackedObject>();
@@ -23,38 +26,70 @@ public class ControllerInputHandler : MonoBehaviour {
 	void Update () {
         if (Controller.GetAxis() != Vector2.zero)
         {
-            //Debug.Log(gameObject.name + Controller.GetAxis());
+            //////Debug.Log(gameObject.name + Controller.GetAxis());
         }
 
         if (Controller.GetHairTriggerDown())
         {
-            Debug.Log(gameObject.name + " Trigger Press");
+            ////Debug.Log(gameObject.name + " Trigger Press");
+            
+            
             triggerPressed = true;
         }
 
         if (Controller.GetHairTriggerUp())
         {
-            Debug.Log(gameObject.name + " Trigger Release");
+            ////Debug.Log(gameObject.name + " Trigger Release");
             triggerPressed = false;
         }
 
         if (Controller.GetPressDown(SteamVR_Controller.ButtonMask.Grip))
         {
-            Debug.Log(gameObject.name + " Grip Press");
+            ////Debug.Log(gameObject.name + " Grip Press");
         }
 
         if (Controller.GetPressUp(SteamVR_Controller.ButtonMask.Grip))
         {
-            Debug.Log(gameObject.name + " Grip Release");
+            ////Debug.Log(gameObject.name + " Grip Release");
         }
 
         if (Controller.GetPressUp(SteamVR_Controller.ButtonMask.ApplicationMenu))
         {
             applicationMenuPressed = true;
-            Debug.Log("ERMAHGERD");
+            ////Debug.Log("ERMAHGERD");
         }
+
+        triggerClicked = Controller.GetHairTriggerClicked();
 		
 	}
+    /// <summary>
+    /// Hides or shows the default vive controller model.
+    /// </summary>
+    public void ToggleController(bool t)
+    {
+        if(t)
+        {
+            if (!controllerModel.activeSelf)
+            {
+                controllerModel.SetActive(true);
+            }
+        }
+        else
+        {
+            if (controllerModel.activeSelf)
+            {
+                controllerModel.SetActive(false);
+            }
+        }
+    }
+
+    public void ToggleTeleport(bool t)
+    {
+        if(GetComponent<GameController.LaserPointer>())
+        {
+            GetComponent<GameController.LaserPointer>().allowTeleport = t;
+        }
+    }
 
     public bool PauseButtonPressed
     {
@@ -69,6 +104,19 @@ public class ControllerInputHandler : MonoBehaviour {
     public bool TriggerPressed
     {
         get { return triggerPressed; }
+    }
+
+    public float TriggerPressAmount
+    {
+        get { return Controller.GetHairTriggerAmount(); }
+    }
+    public bool TriggerClicked
+    {
+        get { return triggerClicked; }
+    }
+    public bool GripPressed
+    {
+        get { return Controller.GetPressDown(SteamVR_Controller.ButtonMask.Grip); }
     }
     public SteamVR_Controller.Device Stick
     {

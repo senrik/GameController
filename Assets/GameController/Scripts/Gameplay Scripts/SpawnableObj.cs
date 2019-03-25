@@ -11,51 +11,46 @@ namespace GameController
         public float restTime = 5;
         public GameObject rootObj;
         public bool isPhysicsObj;
-        private Vector3 initPos = Vector3.zero;
+        protected Vector3 initPos = Vector3.zero;
         private bool sleep = true;
 
-        IEnumerator ObjLife()
+        protected IEnumerator ObjLife()
         {
             yield return new WaitForSeconds(lifespan);
             ToggleObj(false);
-            Debug.Log("Spawnable lifespan end.");
+            ////Debug.Log("Spawnable lifespan end.");
         }
 
         IEnumerator PutToSleep()
         {
             yield return new WaitForSeconds(restTime);
-            sleep = true;
             gameObject.SetActive(false);
-        }
-        private void OnEnable()
-        {
-            StartCoroutine(ObjLife());
-            Debug.Log("Spawnable lifespan start.");
-            if(initPos == Vector3.zero)
-            {
-                initPos = transform.position;
-            }
-            ToggleObj(true);
+            //ToggleObj(false);
         }
 
-        IEnumerator ToggleTimer(bool t, float toggleTime)
+        protected IEnumerator ToggleTimer(bool t, float toggleTime)
         {
             yield return new WaitForSeconds(toggleTime);
             if (t)
             {
                 if (!rootObj.activeSelf)
                 {
-                    rootObj.SetActive(true);
-                    if(isPhysicsObj)
+                    if (isPhysicsObj)
                     {
-                        if (rootObj.GetComponent<Rigidbody>())
+                        rootObj.SetActive(true);
+                        if (isPhysicsObj)
                         {
-                            rootObj.GetComponent<Rigidbody>().WakeUp();
-                            rootObj.GetComponent<Rigidbody>().isKinematic = false;
+                            if (rootObj.GetComponent<Rigidbody>())
+                            {
+                                rootObj.GetComponent<Rigidbody>().WakeUp();
+                                rootObj.GetComponent<Rigidbody>().isKinematic = false;
+                            }
                         }
+
+                        sleep = false;
                     }
 
-                    sleep = false;
+                    rootObj.SetActive(true);
                 }
             }
             else
@@ -70,7 +65,6 @@ namespace GameController
                             rootObj.GetComponent<Rigidbody>().isKinematic = true;
                         }
                     }
-                    transform.position = initPos;
                     rootObj.SetActive(false);
                     StartCoroutine(PutToSleep());
                 }

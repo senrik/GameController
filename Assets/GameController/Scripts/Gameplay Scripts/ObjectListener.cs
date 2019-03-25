@@ -31,7 +31,7 @@ namespace GameController
                     }
                 }
             }
-            Debug.Log("Object listener update");
+            //Debug.Log("Object listener update");
         }
 
     }

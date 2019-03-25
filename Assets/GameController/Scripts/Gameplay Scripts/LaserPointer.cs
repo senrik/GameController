@@ -11,11 +11,14 @@ namespace GameController
         public GameObject laserPrefab;
         public GameObject uiPointerPrefab;
 
+        public bool allowTeleport;
+
         public Transform cameraRigTransform;
         public GameObject teleportReticlePrefab;
+        public GameObject uiLaserReticlePrefab;
 
-        private GameObject reticle;
-        private Transform teleportReticleTransform;
+        private GameObject reticle, uiReticle;
+        private Transform teleportReticleTransform, uiReticleTransform;
 
         public Transform headTransform;
 
@@ -26,7 +29,7 @@ namespace GameController
         private bool shouldTeleport, uiElement;
 
         private GameObject laser, uiLaser;
-        private UIInterativeElement selectedUIElement;
+        private UIInteractiveElement selectedUIElement;
         private Transform laserTransform, uiLaserTransform;
         private Vector3 hitPoint;
         private Vector3 laserScale;
@@ -54,8 +57,10 @@ namespace GameController
             uiLaserTransform = uiLaser.transform;
 
             reticle = Instantiate(teleportReticlePrefab, transform);
+            uiReticle = Instantiate(uiLaserReticlePrefab, transform);
 
             teleportReticleTransform = reticle.transform;
+            uiReticleTransform = uiReticle.transform;
         }
 
         private void ShowLaser(RaycastHit hit)
@@ -70,6 +75,7 @@ namespace GameController
 
             laserTransform.localScale = laserScale;
         }
+
         private void ShowUILaser(RaycastHit hit)
         {
             if (laser.activeSelf)
@@ -85,8 +91,6 @@ namespace GameController
             laserScale.z = hit.distance;
 
             uiLaserTransform.localScale = laserScale;
-
-
         }
 
         private void Teleport()
@@ -104,8 +108,16 @@ namespace GameController
         {
             if (selectedUIElement != null)
             {
-                Debug.Log(selectedUIElement.name + " selected.");
-                selectedUIElement.OnHoverEnd();
+                ////Debug.Log(selectedUIElement.name + " selected.");
+                if (selectedUIElement.GetType() == typeof(UIButtonElement))
+                {
+                    ((UIButtonElement)selectedUIElement).OnHoverEnd();
+                }
+                else
+                {
+                    selectedUIElement.OnHoverEnd();
+                }
+                
                 selectedUIElement.OnInteract.Invoke();
                 selectedUIElement = null;
             }
@@ -115,44 +127,73 @@ namespace GameController
         // Update is called once per frame
         void Update()
         {
+            RaycastHit hit;
             switch (GameController.State)
             {
                 case GameState.Active:
                     #region Active
+                    
                     if (Controller.GetPress(SteamVR_Controller.ButtonMask.Touchpad))
                     {
-                        RaycastHit hit;
-                        if (Physics.Raycast(transform.position, transform.forward, out hit, 100, teleportMask))
+                        
+                        if (allowTeleport)
                         {
-                            hitPoint = hit.point;
-                            ShowLaser(hit);
+                            if (Physics.Raycast(transform.position, transform.forward, out hit, 100, teleportMask))
+                            {
+                                hitPoint = hit.point;
+                                ShowLaser(hit);
 
-                            reticle.SetActive(true);
+                                reticle.SetActive(true);
 
-                            teleportReticleTransform.position = hitPoint + teleportReticleOffset;
+                                teleportReticleTransform.position = hitPoint + teleportReticleOffset;
 
-                            shouldTeleport = true;
+                                teleportReticleTransform.forward = hit.normal;
+
+                                shouldTeleport = true;
+                            }
                         }
+                        
                         if (Physics.Raycast(transform.position, transform.forward, out hit, 100, uiMask))
                         {
                             hitPoint = hit.point;
                             ShowUILaser(hit);
-                            selectedUIElement = hit.collider.GetComponent<ButtonBounds>().InteractableElement;
+                            
+                            selectedUIElement = (hit.collider.GetComponent<ButtonBounds>()) ? hit.collider.GetComponent<ButtonBounds>().InteractableElement : null;
                             if (selectedUIElement != null)
                             {
-                                selectedUIElement.OnHoverStart();
+                                if(selectedUIElement.GetType() == typeof(UIButtonElement))
+                                {
+                                    ((UIButtonElement)selectedUIElement).OnHoverStart();
+                                }
+                                else
+                                {
+                                    selectedUIElement.OnHoverStart();
+                                }
+                                
                             }
                             uiElement = true;
                         }
                         else
                         {
                             uiLaser.SetActive(false);
-                            if (selectedUIElement != null)
+                            if(selectedUIElement != null)
                             {
-                                selectedUIElement.OnHoverEnd();
-                            }
+                                if (selectedUIElement.GetType() == typeof(UIButtonElement))
+                                {
+                                    ((UIButtonElement)selectedUIElement).OnHoverEnd();
+                                    
+                                }
+                                else
+                                {
+                                    selectedUIElement.OnHoverEnd();
+                                    
+                                }
 
-                            selectedUIElement = null;
+                                selectedUIElement = null;
+                            }
+                            
+
+                            
                         }
                     }
                     else
@@ -170,13 +211,29 @@ namespace GameController
                     {
                         SelectUIElement();
                     }
+
+
+                    if (Physics.Raycast(transform.position, transform.forward, out hit, 100, uiMask))
+                    {
+                        hitPoint = hit.point;
+                        // place the ui reitcle at the hit point, and have it offset so that is it placed in front of the score panel.
+                        uiReticle.SetActive(true);
+                        uiReticleTransform.position = hitPoint + new Vector3(0,0, 0.025f);
+                        uiReticleTransform.rotation = Quaternion.identity;
+                    }
+                    else
+                    {
+                        //reset the UI reticle
+                        uiReticle.SetActive(false);
+                    }
+
                     #endregion
                     break;
                 case GameState.Paused:
                     #region Paused
                     if (Controller.GetPress(SteamVR_Controller.ButtonMask.Touchpad))
                     {
-                        RaycastHit hit;
+                        
                         
                         if (Physics.Raycast(transform.position, transform.forward, out hit, 100, uiMask))
                         {

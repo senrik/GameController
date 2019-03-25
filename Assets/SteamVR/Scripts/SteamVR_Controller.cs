@@ -114,7 +114,7 @@ public class SteamVR_Controller
 
 		public float hairTriggerDelta = 0.1f; // amount trigger must be pulled or released to change state
 		float hairTriggerLimit;
-		bool hairTriggerState, hairTriggerPrevState;
+		bool hairTriggerState, hairTriggerPrevState, hairTriggerClicked;
 		void UpdateHairTrigger()
 		{
 			hairTriggerPrevState = hairTriggerState;
@@ -129,12 +129,23 @@ public class SteamVR_Controller
 				if (value > hairTriggerLimit + hairTriggerDelta || value >= 1.0f)
 					hairTriggerState = true;
 			}
+
+            if(value >= 1.0f)
+            {
+                hairTriggerClicked = true;
+            }
+            else
+            {
+                hairTriggerClicked = false;
+            }
 			hairTriggerLimit = hairTriggerState ? Mathf.Max(hairTriggerLimit, value) : Mathf.Min(hairTriggerLimit, value);
 		}
 
 		public bool GetHairTrigger() { Update(); return hairTriggerState; }
 		public bool GetHairTriggerDown() { Update(); return hairTriggerState && !hairTriggerPrevState; }
+        public bool GetHairTriggerClicked() { Update(); return hairTriggerClicked; }
 		public bool GetHairTriggerUp() { Update(); return !hairTriggerState && hairTriggerPrevState; }
+        public float GetHairTriggerAmount() { Update(); return state.rAxis1.x; }
 	}
 
 	private static Device[] devices;

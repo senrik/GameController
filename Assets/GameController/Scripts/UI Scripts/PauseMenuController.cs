@@ -14,7 +14,12 @@ public class PauseMenuController : MenuController {
 		
 	}
 
-    public UIInterativeElement MainMenuButton
+    private void LateUpdate()
+    {
+        
+    }
+
+    public UIInteractiveElement MainMenuButton
     {
         get
         {
@@ -22,16 +27,16 @@ public class PauseMenuController : MenuController {
             {
                 if (GetButtonByTag("MainMenuButton"))
                 {
-                    Debug.Log("MainMenuButton found!");
+                    ////Debug.Log("MainMenuButton found!");
                     return GetButtonByTag("MainMenuButton");
                 }
             }
-            Debug.Log("MainMenuButton not found!");
+            //Debug.Log("MainMenuButton not found!");
             return null;
         }
     }
 
-    public UIInterativeElement ResumeButton
+    public UIInteractiveElement ResumeButton
     {
         get
         {
@@ -39,11 +44,11 @@ public class PauseMenuController : MenuController {
             {
                 if (GetButtonByTag("ResumeButton"))
                 {
-                    Debug.Log("ResumeButton found!");
+                    ////Debug.Log("ResumeButton found!");
                     return GetButtonByTag("ResumeButton");
                 }
             }
-            Debug.Log("ResumeButton not found!");
+            //Debug.Log("ResumeButton not found!");
             return null;
         }
     }

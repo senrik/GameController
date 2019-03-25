@@ -16,7 +16,7 @@ namespace GameController
         {
             get { return SteamVR_Controller.Input((int)trackedObj.index); }
         }
-        private UIInterativeElement _elem;
+        private UIInteractiveElement _elem;
 
         private void Awake()
         {
@@ -42,7 +42,7 @@ namespace GameController
             // IF the UI was interactable
             if (hit.collider.CompareTag("InteractableUI"))
             {
-                _elem = hit.collider.gameObject.GetComponent<UIInterativeElement>();
+                _elem = hit.collider.gameObject.GetComponent<UIInteractiveElement>();
                 _elem.OnHoverStart();
 
             }

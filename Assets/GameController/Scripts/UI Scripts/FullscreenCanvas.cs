@@ -20,11 +20,16 @@ namespace GameController
         //private Material fadeMaterial = null;
         private bool isFading = false;
         private CanvasGroup fadeGrp;
+        private Material fadeMaterial;
 
         private void Awake()
         {
             //fadeMaterial = (fadeShader != null) ? new Material(fadeShader) : new Material(Shader.Find("Transparent/Diffuse"));
             fadeGrp = fadeImg.GetComponent<CanvasGroup>();
+            fadeMaterial = fadeImg.GetComponent<Image>().material;
+
+            fadeMaterial.SetFloat("_Transparency", 1.0f);
+
         }
 
         // Use this for initialization
@@ -54,6 +59,7 @@ namespace GameController
                 StartCoroutine(ScreenFadeCor(fade));
             }
         }
+
         IEnumerator ScreenFadeCor(bool fade)
         {
             float elapsedTime = 0.0f;
@@ -85,7 +91,7 @@ namespace GameController
                         isFading = false;
                     }
                     else
-                    {
+                    {                        
                         fadeGrp.alpha = Mathf.Clamp01(elapsedTime / fadeTime);
                     }
                     
@@ -100,10 +106,14 @@ namespace GameController
                     else
                     {
                         fadeGrp.alpha = 1.0f - Mathf.Clamp01(elapsedTime / fadeTime);
+                        
                     }
                 }
 
-                elapsedTime += Time.deltaTime;                
+                fadeMaterial.SetFloat("_Transparency", fadeGrp.alpha);
+                
+
+                elapsedTime += Time.deltaTime;           
             }
             
         }

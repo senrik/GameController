@@ -5,11 +5,11 @@ using UnityEngine.UI;
 
 public class ButtonPanelController : MonoBehaviour {
 
-    public List<UIInterativeElement> buttons;
+    public List<UIButtonElement> buttons;
 
     void Awake()
     {
-        foreach(UIInterativeElement elem in GetComponentsInChildren<UIInterativeElement>())
+        foreach(UIButtonElement elem in GetComponentsInChildren<UIButtonElement>())
         {
             if(!buttons.Contains(elem))
             {
@@ -18,9 +18,9 @@ public class ButtonPanelController : MonoBehaviour {
         }
     }
 
-    public UIInterativeElement GetButtonByTag(string tag)
+    public UIButtonElement GetButtonByTag(string tag)
     {
-        foreach(UIInterativeElement b in buttons)
+        foreach(UIButtonElement b in buttons)
         {
             if(b.tag == tag)
             {
