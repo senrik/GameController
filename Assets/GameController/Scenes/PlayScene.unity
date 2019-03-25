@@ -227,7 +227,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectPrefab: {fileID: 1307243521176762, guid: b8067267c394ba04e9d06e1fbf041ae2,
     type: 2}
-  spawnRate: 0.1
+  spawnRate: 0.01
 --- !u!4 &745136605
 Transform:
   m_ObjectHideFlags: 0
@@ -422,6 +422,11 @@ Prefab:
         type: 2}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224630565796822436, guid: 07057f248005c6e44b3297fe1f8838dd,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.24993896
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 07057f248005c6e44b3297fe1f8838dd, type: 2}

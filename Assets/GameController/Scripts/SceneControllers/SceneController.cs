@@ -16,9 +16,9 @@ namespace GameController {
         // Use this for initialization
         protected void Start()
         {
-            if (GameObject.FindGameObjectWithTag("GameController"))
+            if (GameController.ActiveGameController != null)
             {
-                _gc = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+                _gc = GameController.ActiveGameController;
             }
             else
             {
