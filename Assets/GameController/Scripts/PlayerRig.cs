@@ -14,7 +14,7 @@ namespace GameController
         // Use this for initialization
         void Start()
         {
-
+            _gc = GameController.ActiveGameController;
         }
 
         public void SetGC(GameController gc)

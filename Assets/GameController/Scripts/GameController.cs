@@ -9,7 +9,7 @@ namespace GameController
     {
 
         public bool DEBUG_MODE = false;
-        
+
 
         public GameObject playerPrefab;
         public List<Transform> playerSpawns;
@@ -20,6 +20,8 @@ namespace GameController
         private string sceneToLoad;
         private MenuSystem _ms;
         private GameObject player;
+        private static GameController _activeGC;
+        private static PlayerRig _activePlayer;
 
 
         #region Coroutines
@@ -126,8 +128,12 @@ namespace GameController
                     }
                 }
             }
+
+            
             loadScene = false;
             pauseGame = false;
+            _activePlayer = player.GetComponent<PlayerRig>();
+            _activeGC = this;
         }
 
         public void LoadMe(string scene)
@@ -277,6 +283,16 @@ namespace GameController
         public static GameState State
         {
             get { return state; }
+        }
+
+        public static GameController ActiveGameController
+        {
+            get { return _activeGC; }
+        }
+
+        public static PlayerRig ActivePlayer
+        {
+            get { return _activePlayer; }
         }
 
         public bool SceneReady
