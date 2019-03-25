@@ -13,14 +13,14 @@ public class MainMenuSceneController : SceneController {
 
     private void BindMainMenuActions()
     {
-        Debug.Log("Binding Main Menu Buttons");
+        //Debug.Log("Binding Main Menu Buttons");
         try
         {
             mainMenu.GetButtonByTag("PlayButton").OnInteract.AddListener(delegate { _gc.LoadMe(playSceneName); });
         }
         catch (System.Exception e)
         {
-            Debug.Log(string.Format("Exception \"{0}\" encountered while trying to set the play button action.", e.Message));
+            //Debug.Log(string.Format("Exception \"{0}\" encountered while trying to set the play button action.", e.Message));
         }
 
         mainMenuBound = true;

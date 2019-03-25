@@ -9,11 +9,11 @@ namespace GameController
 
         public GameObject objectPrefab;
         public float spawnRate = 0.1f;
-        protected GameObject[] objPool = new GameObject[60];
+        protected GameObject[] objPool = new GameObject[30];
         public List<Transform> spawnTransforms;
         private float spawnTimer;
         // Use this for initialization
-        protected void Awake()
+        protected void Start()
         {
             spawnTimer = spawnRate;
 
@@ -21,6 +21,13 @@ namespace GameController
             for (int i = 0; i < objPool.Length; i++)
             {
                 objPool[i] = Instantiate(objectPrefab, spawnTransforms[spawnTransforms.Count - 1].position, Quaternion.identity);
+<<<<<<< HEAD
+                objPool[i].SetActive(false);
+            }
+        }
+
+        public GameObject SpawnObj(int location = 0)
+=======
 
                 if(objPool[i].activeSelf)
                 {
@@ -30,6 +37,7 @@ namespace GameController
         }
 
         private void OnDestroy()
+>>>>>>> GameController
         {
             for(int i = 0; i < objPool.Length; i++)
             {
@@ -43,14 +51,17 @@ namespace GameController
             {
                 if (!objPool[i].activeSelf && objPool[i].GetComponent<SpawnableObj>().Sleeping)
                 {
-                    ////Debug.Log("Spawning obj: " + objPool[i].name + " at: " + spawnTransforms[location].name);
+                    Debug.Log("Spawning obj: " + objPool[i].name + " at: " + spawnTransforms[location].name);
                     objPool[i].SetActive(true);
                     objPool[i].GetComponent<SpawnableObj>().ToggleObj(true);
                     objPool[i].transform.position = spawnTransforms[location].position;
                     return objPool[i];
                 }
             }
+<<<<<<< HEAD
 
+=======
+>>>>>>> GameController
             return null;
         }
 

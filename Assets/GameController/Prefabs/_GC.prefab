@@ -82,7 +82,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DEBUG_MODE: 0
-  playerPrefab: {fileID: 1841465300326850, guid: 07057f248005c6e44b3297fe1f8838dd,
+  playerPrefab: {fileID: 1133419124332510, guid: 07057f248005c6e44b3297fe1f8838dd,
     type: 2}
   scenes:
   - sceneName: MainMenuScene

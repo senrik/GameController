@@ -31,13 +31,25 @@ namespace GameController
             if (leftController.PauseButtonPressed || rightController.PauseButtonPressed)
             {
                 pausePressed = true;
-                Debug.Log("Pause Button Pressed!");
+                //Debug.Log("Pause Button Pressed!");
             }
             else
             {
                 pausePressed = false;
             }
 
+        }
+
+        public void ToggleTeleport(bool t)
+        {
+            leftController.ToggleTeleport(t);
+            rightController.ToggleTeleport(t);
+        }
+
+        public void ToggleControllers(bool t)
+        {
+            leftController.ToggleController(t);
+            rightController.ToggleController(t);
         }
 
         public bool MenuButtonPressed

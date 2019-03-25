@@ -33,7 +33,7 @@ public class ScreenFade : MonoBehaviour {
     {
         fadeAlpha = Mathf.PingPong(Time.time, 1);
         fadeGrp.alpha = fadeAlpha;
-        Debug.Log("fadeAlpha: " + fadeAlpha);
+        //Debug.Log("fadeAlpha: " + fadeAlpha);
     }
     // Update is called once per frame
     void Update () {

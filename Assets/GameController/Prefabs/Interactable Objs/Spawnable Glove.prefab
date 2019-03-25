@@ -184,3 +184,4 @@ MonoBehaviour:
   lifespan: 2
   restTime: 5
   rootObj: {fileID: 1704557825258596}
+  isPhysicsObj: 0

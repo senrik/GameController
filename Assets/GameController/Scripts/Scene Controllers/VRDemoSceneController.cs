@@ -26,6 +26,8 @@ public class VRDemoSceneController : SceneController {
                 PlacePlayer();
             }
         }
+
+        _player.ToggleTeleport(true);
     }
 
     new void Update()

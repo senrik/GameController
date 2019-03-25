@@ -6,7 +6,7 @@ public class MenuController : MonoBehaviour {
 
     public ButtonPanelController buttonPanel;
     protected CanvasGroup cnvsGrp;
-
+    private bool displayMenu;
     protected void Awake()
     {
         cnvsGrp = GetComponent<CanvasGroup>();
@@ -42,7 +42,7 @@ public class MenuController : MonoBehaviour {
         }
     }
 
-    public UIInterativeElement GetButtonByTag(string tag)
+    public UIInteractiveElement GetButtonByTag(string tag)
     {
         if(buttonPanel.GetButtonByTag(tag) != null)
         {

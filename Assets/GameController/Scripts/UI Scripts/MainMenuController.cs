@@ -23,21 +23,26 @@ namespace GameController
             base.ToggleMenu(t);
         }
 
-        public UIInterativeElement PlayButton
+        public UIInteractiveElement PlayButton
         {
             get {
                 for(int i = 0; i < buttonPanel.buttons.Count; i++)
                 {
                     if (buttonPanel.buttons[i].CompareTag("PlayButton"))
                     {
-                        Debug.Log("PlayButton found!");
+                        //Debug.Log("PlayButton found!");
                         return buttonPanel.buttons[i];
                     }
                 }
-                Debug.Log("PlayButton not found!");
+                //Debug.Log("PlayButton not found!");
                 return null;
             }
         }
+
+        //public bool HUDAssist
+        //{
+            
+        //}
     }
 }
 

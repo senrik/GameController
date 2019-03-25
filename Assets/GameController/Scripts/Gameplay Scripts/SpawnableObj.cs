@@ -10,54 +10,71 @@ namespace GameController
         public float lifespan = 2;
         public float restTime = 5;
         public GameObject rootObj;
-        private Vector3 initPos = Vector3.zero;
+        public bool isPhysicsObj;
+        protected Vector3 initPos = Vector3.zero;
         private bool sleep = true;
 
-        IEnumerator ObjLife()
+        protected IEnumerator ObjLife()
         {
             yield return new WaitForSeconds(lifespan);
             ToggleObj(false);
-            Debug.Log("Spawnable lifespan end.");
+            ////Debug.Log("Spawnable lifespan end.");
         }
 
         IEnumerator PutToSleep()
         {
             yield return new WaitForSeconds(restTime);
-            sleep = true;
             gameObject.SetActive(false);
-        }
-        private void OnEnable()
-        {
-            StartCoroutine(ObjLife());
-            Debug.Log("Spawnable lifespan start.");
-            if(initPos == Vector3.zero)
-            {
-                initPos = transform.position;
-            }
-            ToggleObj(true);
+            //ToggleObj(false);
         }
 
-        public void ToggleObj(bool t)
+        protected IEnumerator ToggleTimer(bool t, float toggleTime)
         {
+            yield return new WaitForSeconds(toggleTime);
             if (t)
             {
                 if (!rootObj.activeSelf)
                 {
+                    if (isPhysicsObj)
+                    {
+                        rootObj.SetActive(true);
+                        if (isPhysicsObj)
+                        {
+                            if (rootObj.GetComponent<Rigidbody>())
+                            {
+                                rootObj.GetComponent<Rigidbody>().WakeUp();
+                                rootObj.GetComponent<Rigidbody>().isKinematic = false;
+                            }
+                        }
+
+                        sleep = false;
+                    }
+
                     rootObj.SetActive(true);
-                    GetComponent<Rigidbody>().WakeUp();
-                    sleep = false;
                 }
             }
             else
             {
                 if (rootObj.activeSelf)
                 {
-                    GetComponent<Rigidbody>().Sleep();
-                    transform.position = initPos;
+                    if (isPhysicsObj)
+                    {
+                        if (rootObj.GetComponent<Rigidbody>())
+                        {
+                            rootObj.GetComponent<Rigidbody>().Sleep();
+                            rootObj.GetComponent<Rigidbody>().isKinematic = true;
+                        }
+                    }
                     rootObj.SetActive(false);
                     StartCoroutine(PutToSleep());
                 }
             }
+        }
+
+        public void ToggleObj(bool t, float toggleTime = 0)
+        {
+            sleep = !t;
+            StartCoroutine(ToggleTimer(t, toggleTime));
         }
 
         public bool Sleeping
